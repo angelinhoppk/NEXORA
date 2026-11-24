@@ -6,7 +6,7 @@
 window.FEITIVA_SITE_CONFIG = {
   contact: {
     // E-mail comercial (aparece no contato e no rodapé)
-    email: "",
+    email: "contact.feitiva@gmail.com",
     // WhatsApp: somente dígitos, com DDI e DDD. Ex.: "5511999999999"
     whatsapp: "",
     // Como o número deve aparecer na tela. Ex.: "(11) 99999-9999"
