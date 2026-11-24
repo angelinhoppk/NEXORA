@@ -1,6 +1,6 @@
-# NEXORA
+# Feitiva
 
-Repositório oficial da NEXORA, empresa de tecnologia especializada em desenvolvimento de sites, softwares, inteligência artificial, chatbots e automações empresariais.
+Repositório oficial da Feitiva, empresa de tecnologia especializada em desenvolvimento de sites, softwares, inteligência artificial, chatbots e automações empresariais.
 
 Este repositório contém o **site institucional** da empresa.
 
@@ -12,7 +12,7 @@ assets/css/styles.css   Identidade visual, layout e responsividade
 assets/js/config.js     Contatos e envio do formulário (preencher com dados reais)
 assets/js/main.js       Menu mobile, navegação, animação de entrada e formulário
 assets/fonts/           Fontes hospedadas no próprio site (Cormorant Garamond e Albert Sans)
-assets/img/             Telas reais do NEXORA Clinic (WebP) e favicon
+assets/img/             Telas reais do Feitiva Clinic (WebP) e favicon
 ```
 
 Sem dependências e sem etapa de build: é HTML, CSS e JavaScript puros.
@@ -34,4 +34,4 @@ corretamente quando o site é servido por um servidor (Live Server ou a Vercel).
 
 ## Seções
 
-Início, Sobre, Soluções, NEXORA Clinic (com telas reais do sistema), Processo e Contato.
+Início, Sobre, Soluções, Feitiva Clinic (com telas reais do sistema), Processo e Contato.

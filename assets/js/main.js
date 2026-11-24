@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const config = window.NEXORA_SITE_CONFIG || {};
+  const config = window.FEITIVA_SITE_CONFIG || {};
   const contact = config.contact || {};
   const formConfig = config.form || {};
   const root = document.documentElement;
@@ -162,7 +162,7 @@
   const endpointUrl = typeof formConfig.endpointUrl === "string" ? formConfig.endpointUrl.trim() : "";
   const deliveryMode = /^https:\/\//.test(endpointUrl) ? "endpoint" : email ? "email" : "none";
 
-  // "Agendar uma apresentação" já escolhe o NEXORA Clinic no formulário
+  // "Agendar uma apresentação" já escolhe o Feitiva Clinic no formulário
   document.querySelectorAll("[data-project-type]").forEach((link) => {
     link.addEventListener("click", () => {
       if (projectSelect) projectSelect.value = link.getAttribute("data-project-type");
@@ -267,7 +267,7 @@
       const response = await fetch(endpointUrl, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, source: "site-nexora" })
+        body: JSON.stringify({ ...data, source: "site-feitiva" })
       });
       if (!response.ok) throw new Error(String(response.status));
       form.reset();

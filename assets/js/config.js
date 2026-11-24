@@ -1,9 +1,9 @@
 /**
- * NEXORA — configuração do site institucional
+ * Feitiva — configuração do site institucional
  * ---------------------------------------------------------------------------
  * Preencha apenas com dados reais. Campos vazios não aparecem no site.
  */
-window.NEXORA_SITE_CONFIG = {
+window.FEITIVA_SITE_CONFIG = {
   contact: {
     // E-mail comercial (aparece no contato e no rodapé)
     email: "",
