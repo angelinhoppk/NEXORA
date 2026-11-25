@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Na Chapa Burger | Smash burger e delivery</title>
+  <meta name="description" content="Na Chapa Burger: smash burgers, combos e batatas. Monte seu pedido e envie pelo WhatsApp. Projeto demonstrativo da Feitiva.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#120c08">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23ff7a1a'/%3E%3Cpath d='M14 30a18 14 0 0 1 36 0Z' fill='%23120c08'/%3E%3Crect x='12' y='34' width='40' height='6' rx='3' fill='%23120c08'/%3E%3Cpath d='M14 44h36a0 0 0 0 1 0 0 6 6 0 0 1-6 6H20a6 6 0 0 1-6-6Z' fill='%23120c08'/%3E%3C/svg%3E">
+  <link rel="preload" href="../assets/fonts/bowlby-one-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <style>
+    @font-face { font-family: "Bowlby One"; font-weight: 400; font-display: swap; src: url("../assets/fonts/bowlby-one-latin-400-normal.woff2") format("woff2"); }
+    @font-face { font-family: "Bricolage Grotesque"; font-weight: 400; font-display: swap; src: url("../assets/fonts/bricolage-grotesque-latin-400-normal.woff2") format("woff2"); }
+    @font-face { font-family: "Bricolage Grotesque"; font-weight: 600; font-display: swap; src: url("../assets/fonts/bricolage-grotesque-latin-600-normal.woff2") format("woff2"); }
+    @font-face { font-family: "Bricolage Grotesque"; font-weight: 800; font-display: swap; src: url("../assets/fonts/bricolage-grotesque-latin-800-normal.woff2") format("woff2"); }
+
+    :root {
+      --bg: #120c08;
+      --bg-2: #1a120c;
+      --card: #20160f;
+      --card-2: #2a1d14;
+      --line: #35271c;
+      --text: #fff4e8;
+      --muted: #b9a796;
+      --orange: #ff7a1a;
+      --orange-2: #ff9a3d;
+      --orange-deep: #e3570b;
+      --green: #1fa855;
+      --display: "Bowlby One", "Arial Black", Impact, sans-serif;
+      --font: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+      --wrap: 1200px;
+      --pad: clamp(18px, 5vw, 48px);
+      --radius: 18px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 140px; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 400 17px/1.55 var(--font); -webkit-font-smoothing: antialiased; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    h1, h2, h3, h4, p { margin: 0; }
+    ul, ol { margin: 0; padding: 0; list-style: none; }
+    button { font: inherit; color: inherit; cursor: pointer; }
+    :focus-visible { outline: 3px solid var(--orange-2); outline-offset: 2px; }
+    .wrap { max-width: calc(var(--wrap) + var(--pad) * 2); margin: 0 auto; padding: 0 var(--pad); }
+
+    .demo-bar { background: #000; color: var(--muted); font-size: 13px; text-align: center; padding: 9px 16px; }
+    .demo-bar a { color: var(--orange-2); text-decoration: underline; text-underline-offset: 3px; }
+
+    /* ---------- Botões ---------- */
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 54px; padding: 0 28px; border: 0; border-radius: 14px; background: linear-gradient(180deg, var(--orange-2), var(--orange) 55%, var(--orange-deep)); color: #fff; font-weight: 600; font-size: 16px; box-shadow: 0 10px 28px -10px rgba(255,122,26,.75); transition: transform .15s, box-shadow .2s, filter .2s; }
+    .btn:hover { filter: brightness(1.06); box-shadow: 0 14px 32px -10px rgba(255,122,26,.9); }
+    .btn:active { transform: translateY(1px); }
+    .btn svg { width: 20px; height: 20px; flex: none; }
+    .btn-dark { background: rgba(255,244,232,.06); color: var(--text); box-shadow: inset 0 0 0 1px rgba(255,244,232,.16); }
+    .btn-dark:hover { background: rgba(255,244,232,.1); box-shadow: inset 0 0 0 1px rgba(255,244,232,.3); filter: none; }
+    .btn-green { background: var(--green); box-shadow: 0 10px 28px -12px rgba(31,168,85,.8); }
+
+    /* ---------- Cabeçalho ---------- */
+    header { position: sticky; top: 0; z-index: 30; background: rgba(18,12,8,.86); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,244,232,.06); }
+    .nav { display: flex; align-items: center; gap: 28px; height: 76px; }
+    .logo { display: inline-flex; align-items: center; gap: 10px; font: 400 22px/1 var(--display); letter-spacing: .01em; color: var(--orange); }
+    .logo svg { width: 34px; height: 34px; }
+    .nav-links { display: flex; gap: 30px; margin-left: auto; font-size: 16px; color: var(--muted); }
+    .nav-links a { transition: color .2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta { min-height: 46px; padding: 0 22px; border-radius: 12px; }
+    .cart-btn { position: relative; display: grid; place-items: center; width: 46px; height: 46px; border: 0; border-radius: 12px; background: rgba(255,244,232,.06); box-shadow: inset 0 0 0 1px rgba(255,244,232,.14); }
+    .cart-btn svg { width: 22px; height: 22px; }
+    .badge { position: absolute; top: -6px; right: -6px; min-width: 22px; height: 22px; padding: 0 6px; border-radius: 999px; background: var(--orange); color: #fff; font-size: 12px; font-weight: 800; display: grid; place-items: center; transform: scale(0); transition: transform .25s cubic-bezier(.2,1.6,.4,1); }
+    .badge.show { transform: scale(1); }
+
+    /* ---------- Topo ---------- */
+    .hero { position: relative; overflow: hidden; padding: clamp(36px, 5vw, 64px) 0 clamp(28px, 4vw, 48px); background:
+        radial-gradient(60% 70% at 74% 42%, rgba(255,122,26,.55) 0%, rgba(227,87,11,.28) 35%, rgba(18,12,8,0) 70%),
+        radial-gradient(40% 50% at 0% 100%, rgba(255,122,26,.12), rgba(18,12,8,0) 70%),
+        var(--bg); }
+    .hero-grid { position: relative; display: grid; grid-template-columns: 1.12fr 1fr; gap: 24px; align-items: center; }
+    .pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 999px; background: rgba(255,122,26,.14); box-shadow: inset 0 0 0 1px rgba(255,122,26,.35); color: var(--orange-2); font-weight: 600; font-size: 14px; margin-bottom: 24px; }
+    .pill svg { width: 16px; height: 16px; }
+    h1 { font: 400 clamp(42px, 5.2vw, 78px)/.98 var(--display); text-transform: uppercase; letter-spacing: -0.01em; }
+    h1 .hl { display: block; color: var(--orange); }
+    h1 .nowrap { white-space: nowrap; }
+    .hero-copy > p { margin-top: 22px; max-width: 27em; color: #d8c8b8; font-size: clamp(17px, 1.5vw, 19px); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+
+    .stage { position: relative; aspect-ratio: 1 / 1; }
+    .stage img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+      -webkit-mask-image: radial-gradient(closest-side, #000 62%, transparent 100%); mask-image: radial-gradient(closest-side, #000 62%, transparent 100%);
+      transition: opacity .45s ease, transform .6s cubic-bezier(.2,.8,.2,1); }
+    .stage img.leaving { opacity: 0; transform: scale(.94) rotate(-4deg); }
+    .stage-label { position: absolute; right: 6%; bottom: 10%; display: flex; align-items: center; gap: 14px; padding: 10px 10px 10px 18px; border-radius: 16px; background: rgba(18,12,8,.78); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); box-shadow: inset 0 0 0 1px rgba(255,244,232,.12); }
+    .stage-label strong { display: block; font-weight: 800; font-size: 17px; }
+    .stage-label span { color: var(--orange-2); font-weight: 600; font-size: 15px; }
+    .stage-label .add { min-height: 40px; }
+    .crumbs { position: absolute; pointer-events: none; inset: 0; }
+    .crumbs i { position: absolute; width: 8px; height: 5px; border-radius: 50%; background: #f3d8a6; opacity: .55; }
+
+    .thumbs { display: flex; gap: 12px; margin-top: 8px; }
+    .thumbs button { position: relative; width: 84px; height: 84px; padding: 0; border: 0; border-radius: 16px; overflow: hidden; background: var(--card); box-shadow: inset 0 0 0 1px rgba(255,244,232,.14); transition: transform .2s, box-shadow .2s; }
+    .thumbs button img { width: 100%; height: 100%; object-fit: cover; opacity: .7; transition: opacity .2s; }
+    .thumbs button:hover img { opacity: 1; }
+    .thumbs button[aria-pressed="true"] { transform: translateY(-4px); box-shadow: 0 0 0 2px var(--orange), 0 12px 24px -10px rgba(255,122,26,.8); }
+    .thumbs button[aria-pressed="true"] img { opacity: 1; }
+    .thumbs button[aria-pressed="true"]::after { content: ""; position: absolute; left: 50%; top: -12px; width: 0; height: 0; border: 6px solid transparent; border-bottom-color: var(--orange); transform: translateX(-50%); }
+
+    .perks { display: flex; flex-wrap: wrap; gap: 16px 0; margin-top: 40px; padding-top: 24px; border-top: 1px solid rgba(255,244,232,.1); }
+    .perk { display: flex; align-items: center; gap: 12px; padding-right: 28px; margin-right: 28px; border-right: 1px solid rgba(255,244,232,.12); }
+    .perk:last-child { border-right: 0; margin-right: 0; padding-right: 0; }
+    .perk-ico { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 12px; background: rgba(255,122,26,.14); color: var(--orange-2); flex: none; }
+    .perk-ico svg { width: 22px; height: 22px; }
+    .perk strong { display: block; font-weight: 600; font-size: 15px; }
+    .perk small { color: var(--muted); font-size: 13px; }
+
+    /* ---------- Seções ---------- */
+    section { padding: clamp(64px, 9vw, 112px) 0; }
+    .sec-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 16px 40px; margin-bottom: 28px; }
+    h2 { font: 400 clamp(40px, 5.6vw, 76px)/.95 var(--display); text-transform: uppercase; }
+    h2 .hl { color: var(--orange); }
+    .sec-head p { max-width: 26em; color: var(--muted); }
+
+    .cats { position: sticky; top: 76px; z-index: 20; display: flex; gap: 8px; overflow-x: auto; padding: 12px 0; margin-bottom: 12px; background: var(--bg); scrollbar-width: none; }
+    .cats::-webkit-scrollbar { display: none; }
+    .cats a { flex: none; padding: 10px 18px; border-radius: 999px; background: var(--card); color: var(--muted); font-weight: 600; font-size: 15px; transition: background-color .2s, color .2s; }
+    .cats a:hover { color: var(--text); }
+    .cats a.is-active { background: var(--orange); color: #fff; }
+
+    .group { padding-top: 28px; }
+    .group h3 { font: 400 26px/1 var(--display); text-transform: uppercase; margin-bottom: 18px; }
+    .items { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    .item { position: relative; display: flex; flex-direction: column; background: var(--card); border-radius: var(--radius); overflow: hidden; box-shadow: inset 0 0 0 1px rgba(255,244,232,.06); transition: transform .25s, box-shadow .25s; }
+    .item:hover { transform: translateY(-3px); box-shadow: inset 0 0 0 1px rgba(255,122,26,.35), 0 18px 36px -20px rgba(255,122,26,.5); }
+    .item img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: var(--bg-2); }
+    .item-tag { position: absolute; top: 12px; left: 12px; padding: 4px 10px; border-radius: 999px; background: var(--orange); color: #fff; font-weight: 600; font-size: 13px; }
+    .item-body { display: flex; flex-direction: column; flex: 1; padding: 18px; }
+    .item h4 { font-weight: 800; font-size: 21px; letter-spacing: -0.02em; }
+    .item p { margin-top: 6px; color: var(--muted); font-size: 15px; line-height: 1.45; flex: 1; }
+    .item-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; }
+    .price { font: 400 24px/1 var(--display); color: var(--orange-2); }
+    .add { display: inline-flex; align-items: center; gap: 6px; min-height: 42px; padding: 0 16px; border: 0; border-radius: 12px; background: var(--orange); color: #fff; font-weight: 600; font-size: 15px; transition: background-color .2s, transform .15s; }
+    .add:hover { background: var(--orange-deep); }
+    .add:active { transform: scale(.97); }
+    .add.added { background: var(--green); }
+
+    .simple { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+    .simple li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 14px 14px 18px; background: var(--card); border-radius: 14px; }
+    .simple span { font-weight: 600; }
+    .simple small { display: block; color: var(--muted); font-size: 14px; font-weight: 400; }
+    .simple .add { min-height: 38px; padding: 0 14px; }
+
+    .how { background: linear-gradient(135deg, #ff8a2a 0%, #ff6a12 55%, #e0500a 100%); color: #fff; }
+    .how h2 { color: #fff; }
+    .steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+    .steps li { background: rgba(18,12,8,.88); border-radius: var(--radius); padding: 26px; }
+    .steps b { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: var(--orange); color: #fff; font: 400 22px/1 var(--display); margin-bottom: 18px; }
+    .steps h3 { font-weight: 800; font-size: 22px; }
+    .steps p { margin-top: 6px; color: var(--muted); }
+
+    .delivery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .card { background: var(--card); border-radius: var(--radius); padding: clamp(24px, 3vw, 36px); }
+    .card h3 { font: 400 24px/1 var(--display); text-transform: uppercase; margin-bottom: 14px; }
+    .rows li { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px dashed var(--line); }
+    .rows li:last-child { border-bottom: 0; }
+    .rows span:first-child { color: var(--muted); }
+    .rows span:last-child { font-weight: 600; }
+    .note { margin-top: 14px; color: var(--muted); font-size: 14px; }
+
+    footer { border-top: 1px solid var(--line); color: var(--muted); padding: 36px 0 120px; font-size: 14px; }
+    footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 32px; }
+    footer a { color: var(--orange-2); }
+
+    /* ---------- Carrinho ---------- */
+    .cart-bar { position: fixed; left: 50%; bottom: 18px; z-index: 40; width: min(560px, calc(100% - 28px)); transform: translate(-50%, 160%); display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 10px 10px 10px 22px; border-radius: 18px; background: #fff4e8; color: #1a110b; box-shadow: 0 18px 40px rgba(0,0,0,.5); transition: transform .35s cubic-bezier(.2,.8,.2,1); }
+    .cart-bar.show { transform: translate(-50%, 0); }
+    .cart-bar strong { font-weight: 800; }
+    .cart-bar .btn { min-height: 46px; padding: 0 20px; }
+
+    .drawer { position: fixed; inset: 0; z-index: 50; display: none; }
+    .drawer.open { display: block; }
+    .drawer-bg { position: absolute; inset: 0; background: rgba(0,0,0,.6); }
+    .panel { position: absolute; right: 0; top: 0; bottom: 0; width: min(440px, 100%); display: flex; flex-direction: column; background: var(--bg-2); box-shadow: -20px 0 50px rgba(0,0,0,.4); animation: slide .3s cubic-bezier(.2,.8,.2,1); }
+    @keyframes slide { from { transform: translateX(100%); } to { transform: none; } }
+    .panel-head { display: flex; align-items: center; justify-content: space-between; padding: 20px 22px; border-bottom: 1px solid var(--line); }
+    .panel-head h2 { font-size: 30px; }
+    .close { width: 44px; height: 44px; border: 0; border-radius: 12px; background: var(--card-2); font-size: 22px; line-height: 1; }
+    .panel-body { flex: 1; overflow-y: auto; padding: 8px 22px 22px; }
+    .line { display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--line); }
+    .line-name { font-weight: 600; }
+    .line-price { color: var(--muted); font-size: 15px; }
+    .qty { display: inline-flex; align-items: center; gap: 4px; background: var(--card); border-radius: 12px; padding: 4px; grid-row: span 2; }
+    .qty button { width: 34px; height: 34px; border: 0; border-radius: 9px; background: var(--card-2); font-weight: 800; font-size: 18px; line-height: 1; }
+    .qty span { min-width: 22px; text-align: center; font-weight: 600; }
+    .form { display: grid; gap: 14px; margin-top: 22px; }
+    .form label { display: grid; gap: 6px; font-weight: 600; font-size: 15px; }
+    .form input, .form textarea, .form select { width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--card); font: 400 16px/1.4 var(--font); color: var(--text); }
+    .form input:focus, .form textarea:focus, .form select:focus { outline: none; border-color: var(--orange); }
+    .form textarea { min-height: 72px; resize: vertical; }
+    .seg { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 4px; background: var(--card); border-radius: 14px; }
+    .seg input { position: absolute; opacity: 0; pointer-events: none; }
+    .seg label { display: block; text-align: center; padding: 10px; border-radius: 10px; font-weight: 600; cursor: pointer; color: var(--muted); }
+    .seg input:checked + label { background: var(--orange); color: #fff; }
+    .seg input:focus-visible + label { outline: 3px solid var(--orange-2); }
+    .error { color: #ff8a6a; font-size: 14px; font-weight: 600; min-height: 20px; }
+    .panel-foot { padding: 18px 22px 22px; border-top: 1px solid var(--line); }
+    .totals { display: grid; gap: 6px; margin-bottom: 14px; font-size: 15px; color: var(--muted); }
+    .totals div { display: flex; justify-content: space-between; }
+    .totals .grand { color: var(--text); font-weight: 800; font-size: 22px; }
+    .panel-foot .btn { width: 100%; }
+    .empty { padding: 32px 0; color: var(--muted); text-align: center; }
+
+    /* ---------- Responsivo ---------- */
+    @media (max-width: 960px) {
+      .items { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .simple { grid-template-columns: 1fr 1fr; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .hero-visual { order: -1; }
+      .stage { max-width: 520px; margin: 0 auto; }
+      .thumbs { justify-content: center; }
+    }
+    @media (max-width: 760px) {
+      .nav-links, .nav-cta { display: none; }
+      .cart-btn { margin-left: auto; }
+      .steps, .delivery-grid { grid-template-columns: 1fr; }
+      .perk { border-right: 0; margin-right: 0; padding-right: 16px; flex: 1 1 100%; }
+    }
+    @media (max-width: 560px) {
+      .items, .simple { grid-template-columns: 1fr; }
+      .item { flex-direction: row; }
+      .item img { width: 112px; aspect-ratio: auto; flex: none; }
+      .item-body { padding: 14px; }
+      .item h4 { font-size: 18px; }
+      .item p { font-size: 14px; }
+      .item-tag { top: 6px; left: 6px; font-size: 11px; padding: 3px 8px; }
+      .hero-actions .btn { flex: 1 1 100%; }
+      .thumbs button { width: 66px; height: 66px; border-radius: 12px; }
+      .stage-label { right: 50%; transform: translateX(50%); bottom: 2%; white-space: nowrap; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }
+  </style>
+</head>
+<body>
+  <div class="demo-bar">Projeto demonstrativo criado pela Feitiva. <a href="https://feitiva.vercel.app/#contato">Quero um site assim</a></div>
+
+  <header>
+    <div class="wrap nav">
+      <a class="logo" href="#">
+        <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M6 19a14 11 0 0 1 28 0Z" fill="currentColor"/><rect x="4" y="22" width="32" height="4" rx="2" fill="#ffc145"/><path d="M6 29h28a5 5 0 0 1-5 5H11a5 5 0 0 1-5-5Z" fill="currentColor"/></svg>
+        Na Chapa
+      </a>
+      <nav class="nav-links" aria-label="Navegação">
+        <a href="#cardapio">Cardápio</a>
+        <a href="#combos">Combos</a>
+        <a href="#como-pedir">Como pedir</a>
+        <a href="#entrega">Entrega</a>
+      </nav>
+      <a class="btn nav-cta" href="#cardapio">Pedir agora</a>
+      <button class="cart-btn" type="button" data-open-cart aria-label="Abrir pedido">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.6 12.2a2 2 0 0 0 2 1.6h8.6a2 2 0 0 0 2-1.5L22 7H6"/></svg>
+        <span class="badge" data-badge>0</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= TOPO ================= -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <span class="pill">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2s1 3-1 6-4 4-4 8a5 5 0 0 0 10 0c0-2-1-3-1-3s-1 2-3 2c0 0 3-3 1-7-1-3-2-6-2-6Z"/></svg>
+            Smash burger artesanal
+          </span>
+          <h1 id="hero-title"><span class="nowrap">Smash na chapa</span> <span class="hl">direto pra você</span></h1>
+          <p>Blend artesanal, pão brioche e batata crocante. Monte o pedido aqui e ele chega pronto no nosso WhatsApp.</p>
+          <div class="hero-actions">
+            <a class="btn" href="#cardapio">Montar meu pedido</a>
+            <a class="btn btn-dark" href="#cardapio">Ver cardápio</a>
+          </div>
+          <div class="perks">
+            <div class="perk"><span class="perk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5.5" cy="17.5" r="3"/><circle cx="18.5" cy="17.5" r="3"/><path d="M15 6h2l3 7.5M5.5 17.5 9 10h6l3.5 7.5M12 10 10 6H7"/></svg></span><span><strong>Delivery e retirada</strong><small>No seu bairro</small></span></div>
+            <div class="perk"><span class="perk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10Z"/><path d="M2 21c0-3 1.9-5.4 5.1-6"/></svg></span><span><strong>Blend artesanal</strong><small>Pão brioche fresco</small></span></div>
+            <div class="perk"><span class="perk-ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.6A8.4 8.4 0 1 1 21 11.5Z"/></svg></span><span><strong>Pedido no WhatsApp</strong><small>Sem taxa de aplicativo</small></span></div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="stage">
+            <img data-stage src="https://images.unsplash.com/photo-1607013251379-e6eecfffe234?auto=format&fit=crop&w=1000&h=1000&q=72" width="1000" height="1000" fetchpriority="high" alt="Duplo Smash: cheeseburger duplo com cheddar derretido">
+            <div class="crumbs" aria-hidden="true">
+              <i style="left:14%;top:22%;transform:rotate(20deg)"></i><i style="left:86%;top:18%"></i><i style="left:8%;top:62%;transform:rotate(-30deg)"></i>
+              <i style="left:90%;top:56%;transform:rotate(40deg)"></i><i style="left:22%;top:10%"></i><i style="left:76%;top:86%;transform:rotate(15deg)"></i>
+            </div>
+            <div class="stage-label">
+              <div><strong data-stage-name>Duplo Smash</strong><span data-stage-price>R$ 34</span></div>
+              <button class="add" type="button" data-stage-add>+ Adicionar</button>
+            </div>
+          </div>
+          <div class="thumbs" role="group" aria-label="Escolha um burger em destaque">
+            <button type="button" aria-pressed="true" data-pick="Duplo Smash|34|photo-1607013251379-e6eecfffe234|cheeseburger duplo com cheddar derretido"><img src="https://images.unsplash.com/photo-1607013251379-e6eecfffe234?auto=format&fit=crop&w=180&h=180&q=60" alt="Duplo Smash"></button>
+            <button type="button" aria-pressed="false" data-pick="Bacon Brasa|36|photo-1586190848861-99aa4a171e90|hambúrguer com bacon, queijo e salada"><img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=180&h=180&q=60" alt="Bacon Brasa"></button>
+            <button type="button" aria-pressed="false" data-pick="Salada Fresh|31|photo-1603064752734-4c48eff53d05|hambúrguer com alface, tomate e cebola roxa"><img src="https://images.unsplash.com/photo-1603064752734-4c48eff53d05?auto=format&fit=crop&w=180&h=180&q=60" alt="Salada Fresh"></button>
+            <button type="button" aria-pressed="false" data-pick="Monstro|42|photo-1571091718767-18b5b1457add|hambúrguer alto com dois blends e salada"><img src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?auto=format&fit=crop&w=180&h=180&q=60" alt="Monstro"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CARDÁPIO ================= -->
+    <section id="cardapio" aria-labelledby="cardapio-title">
+      <div class="wrap">
+        <div class="sec-head">
+          <h2 id="cardapio-title">Nosso <span class="hl">cardápio</span></h2>
+          <p>Toque em "Adicionar" e o pedido vai sendo montado. No final, é só enviar pelo WhatsApp.</p>
+        </div>
+
+        <nav class="cats" aria-label="Categorias do cardápio">
+          <a href="#burgers" class="is-active">Burgers</a>
+          <a href="#combos">Combos</a>
+          <a href="#acompanhamentos">Acompanhamentos</a>
+          <a href="#bebidas">Bebidas</a>
+        </nav>
+
+        <div class="group" id="burgers">
+          <h3>Burgers</h3>
+          <ul class="items">
+            <li class="item"><span class="item-tag">Mais pedido</span><img loading="lazy" src="https://images.unsplash.com/photo-1607013251379-e6eecfffe234?auto=format&fit=crop&w=700&h=525&q=70" alt="Cheeseburger duplo com picles"><div class="item-body"><h4>Duplo Smash</h4><p>Dois smash de 90 g, cheddar duplo, cebola na chapa e picles.</p><div class="item-foot"><span class="price">R$ 34</span><button class="add" type="button" data-add="Duplo Smash|34">+ Adicionar</button></div></div></li>
+            <li class="item"><img loading="lazy" src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=700&h=525&q=70" alt="Hambúrguer clássico com alface e tomate"><div class="item-body"><h4>Clássico</h4><p>Blend de 150 g, cheddar, alface, tomate e molho da casa no brioche.</p><div class="item-foot"><span class="price">R$ 29</span><button class="add" type="button" data-add="Clássico|29">+ Adicionar</button></div></div></li>
+            <li class="item"><img loading="lazy" src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?auto=format&fit=crop&w=700&h=525&q=70" alt="Hambúrguer com bacon e salada"><div class="item-body"><h4>Bacon Brasa</h4><p>Blend de 150 g, bacon crocante, cheddar e barbecue defumado.</p><div class="item-foot"><span class="price">R$ 36</span><button class="add" type="button" data-add="Bacon Brasa|36">+ Adicionar</button></div></div></li>
+            <li class="item"><img loading="lazy" src="https://images.unsplash.com/photo-1603064752734-4c48eff53d05?auto=format&fit=crop&w=700&h=525&q=70" alt="Hambúrguer com salada e cebola roxa"><div class="item-body"><h4>Salada Fresh</h4><p>Blend de 150 g, queijo prato, alface, tomate e cebola roxa.</p><div class="item-foot"><span class="price">R$ 31</span><button class="add" type="button" data-add="Salada Fresh|31">+ Adicionar</button></div></div></li>
+            <li class="item"><img loading="lazy" src="https://images.unsplash.com/photo-1571091718767-18b5b1457add?auto=format&fit=crop&w=700&h=525&q=70" alt="Hambúrguer alto com salada"><div class="item-body"><h4>Monstro</h4><p>Dois blends de 150 g, bacon, cheddar e salada. Para quem chega com fome.</p><div class="item-foot"><span class="price">R$ 42</span><button class="add" type="button" data-add="Monstro|42">+ Adicionar</button></div></div></li>
+            <li class="item"><img loading="lazy" src="https://images.unsplash.com/photo-1610970878459-a0e464d7592b?auto=format&fit=crop&w=700&h=525&q=70" alt="Hambúrguer com queijo e tomate"><div class="item-body"><h4>Kids</h4><p>Blend de 90 g, queijo e ketchup. Pequeno no tamanho, grande no sabor.</p><div class="item-foot"><span class="price">R$ 22</span><button class="add" type="button" data-add="Kids|22">+ Adicionar</button></div></div></li>
+          </ul>
+        </div>
+
+        <div class="group" id="combos">
+          <h3>Combos</h3>
+          <ul class="items">
+            <li class="item"><span class="item-tag">Combo do dia</span><img loading="lazy" src="https://images.unsplash.com/photo-1763689389824-dd2cea2e5772?auto=format&fit=crop&w=700&h=525&q=70" alt="Hambúrguer, batatas fritas e bebida na bandeja"><div class="item-body"><h4>Combo Clássico</h4><p>Clássico, batata frita média e refrigerante lata.</p><div class="item-foot"><span class="price">R$ 42</span><button class="add" type="button" data-add="Combo Clássico|42">+ Adicionar</button></div></div></li>
+            <li class="item"><img loading="lazy" src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=700&h=525&q=70" alt="Hambúrguer servido em bandeja de madeira"><div class="item-body"><h4>Combo Duplo</h4><p>Duplo Smash, batata frita média e refrigerante lata.</p><div class="item-foot"><span class="price">R$ 47</span><button class="add" type="button" data-add="Combo Duplo|47">+ Adicionar</button></div></div></li>
+            <li class="item"><img loading="lazy" src="https://images.unsplash.com/photo-1466978913421-dad2ebd01d17?auto=format&fit=crop&w=700&h=525&q=70" alt="Mesa com hambúrgueres e batatas para dividir"><div class="item-body"><h4>Combo Galera</h4><p>Três burgers à escolha, duas batatas grandes e três refrigerantes.</p><div class="item-foot"><span class="price">R$ 129</span><button class="add" type="button" data-add="Combo Galera|129">+ Adicionar</button></div></div></li>
+          </ul>
+        </div>
+
+        <div class="group" id="acompanhamentos">
+          <h3>Acompanhamentos</h3>
+          <ul class="items">
+            <li class="item"><img loading="lazy" src="https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?auto=format&fit=crop&w=700&h=525&q=70" alt="Batatas fritas em cesta"><div class="item-body"><h4>Batata frita</h4><p>Porção média, crocante por fora e macia por dentro.</p><div class="item-foot"><span class="price">R$ 14</span><button class="add" type="button" data-add="Batata frita|14">+ Adicionar</button></div></div></li>
+            <li class="item"><img loading="lazy" src="https://images.unsplash.com/photo-1598679253544-2c97992403ea?auto=format&fit=crop&w=700&h=525&q=70" alt="Batatas fritas em papel"><div class="item-body"><h4>Batata cheddar e bacon</h4><p>Porção grande com cheddar cremoso e bacon em cubos.</p><div class="item-foot"><span class="price">R$ 24</span><button class="add" type="button" data-add="Batata cheddar e bacon|24">+ Adicionar</button></div></div></li>
+          </ul>
+        </div>
+
+        <div class="group" id="bebidas">
+          <h3>Bebidas</h3>
+          <ul class="simple">
+            <li><span>Refrigerante lata<small>350 ml · R$ 7</small></span><button class="add" type="button" data-add="Refrigerante lata|7" aria-label="Adicionar refrigerante lata">+</button></li>
+            <li><span>Suco natural<small>500 ml · R$ 10</small></span><button class="add" type="button" data-add="Suco natural|10" aria-label="Adicionar suco natural">+</button></li>
+            <li><span>Água<small>com ou sem gás · R$ 4</small></span><button class="add" type="button" data-add="Água|4" aria-label="Adicionar água">+</button></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= COMO PEDIR ================= -->
+    <section class="how" id="como-pedir" aria-labelledby="como-title">
+      <div class="wrap">
+        <div class="sec-head"><h2 id="como-title">Como pedir</h2></div>
+        <ol class="steps">
+          <li><b>1</b><h3>Escolha</h3><p>Adicione os lanches do cardápio. O total aparece na hora.</p></li>
+          <li><b>2</b><h3>Envie</h3><p>Diga se é entrega ou retirada. O pedido abre pronto no WhatsApp.</p></li>
+          <li><b>3</b><h3>Receba</h3><p>A gente confirma e avisa quando o pedido sair para entrega.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ================= ENTREGA ================= -->
+    <section id="entrega" aria-labelledby="entrega-title">
+      <div class="wrap">
+        <div class="sec-head"><h2 id="entrega-title">Entrega e <span class="hl">horário</span></h2><p>Valores e bairros de exemplo, para demonstração.</p></div>
+        <div class="delivery-grid">
+          <div class="card">
+            <h3>Taxa por bairro</h3>
+            <ul class="rows">
+              <li><span>Centro</span><span>R$ 5</span></li>
+              <li><span>Jardim das Flores</span><span>R$ 7</span></li>
+              <li><span>Vila Nova</span><span>R$ 8</span></li>
+              <li><span>Parque Industrial</span><span>R$ 10</span></li>
+            </ul>
+            <p class="note">Outro bairro? Pergunte pelo WhatsApp.</p>
+          </div>
+          <div class="card">
+            <h3>Funcionamento</h3>
+            <ul class="rows">
+              <li><span>Terça a domingo</span><span>18h às 23h30</span></li>
+              <li><span>Segunda</span><span>Fechado</span></li>
+              <li><span>Retirada no balcão</span><span>Sem taxa</span></li>
+              <li><span>Endereço</span><span>Av. Brasil, 1500</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© <span data-year>2026</span> Na Chapa Burger · marca fictícia</span>
+      <span>Site feito pela <a href="https://feitiva.vercel.app">Feitiva</a></span>
+    </div>
+  </footer>
+
+  <!-- Barra do pedido -->
+  <div class="cart-bar" data-cart-bar aria-live="polite">
+    <span><strong data-cart-count>0 itens</strong> · <span data-cart-total>R$ 0</span></span>
+    <button class="btn" type="button" data-open-cart>Ver pedido</button>
+  </div>
+
+  <!-- Painel do pedido -->
+  <div class="drawer" data-drawer role="dialog" aria-modal="true" aria-labelledby="cart-title">
+    <div class="drawer-bg" data-close></div>
+    <div class="panel">
+      <div class="panel-head">
+        <h2 id="cart-title">Seu pedido</h2>
+        <button class="close" type="button" data-close aria-label="Fechar pedido">×</button>
+      </div>
+      <div class="panel-body">
+        <div data-lines></div>
+        <form class="form" data-form novalidate>
+          <div class="seg" role="radiogroup" aria-label="Entrega ou retirada">
+            <input type="radio" name="mode" id="m-ent" value="Entrega" checked><label for="m-ent">Entrega</label>
+            <input type="radio" name="mode" id="m-ret" value="Retirada"><label for="m-ret">Retirada</label>
+          </div>
+          <label>Seu nome<input name="name" autocomplete="name" required></label>
+          <label data-address>Endereço com número e bairro<input name="address" autocomplete="street-address"></label>
+          <label>Pagamento
+            <select name="pay"><option>Pix</option><option>Cartão na entrega</option><option>Dinheiro</option></select>
+          </label>
+          <label>Observações<textarea name="obs" placeholder="Ex.: sem cebola, troco para R$ 100"></textarea></label>
+          <p class="error" data-error role="alert"></p>
+        </form>
+      </div>
+      <div class="panel-foot">
+        <div class="totals">
+          <div><span>Itens</span><span data-sub>R$ 0</span></div>
+          <div><span>Entrega</span><span>combinada no WhatsApp</span></div>
+          <div class="grand"><span>Total</span><span data-grand>R$ 0</span></div>
+        </div>
+        <button class="btn btn-green" type="button" data-send>
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3Z"/></svg>
+          Enviar pedido no WhatsApp
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    "use strict";
+    var WHATSAPP = "5511900000000"; // número fictício de demonstração
+    var cart = []; // [{name, price, qty}]
+    var $ = function (s) { return document.querySelector(s); };
+    var money = function (v) { return "R$ " + (Number.isInteger(v) ? v : v.toFixed(2).replace(".", ",")); };
+
+    document.querySelectorAll("[data-year]").forEach(function (e) { e.textContent = new Date().getFullYear(); });
+
+    // ---------- Pedido ----------
+    function addItem(name, price) {
+      var found = cart.find(function (i) { return i.name === name; });
+      if (found) found.qty++; else cart.push({ name: name, price: price, qty: 1 });
+      render();
+    }
+    function flash(btn) {
+      var original = btn.textContent;
+      btn.classList.add("added");
+      btn.textContent = btn.textContent.trim() === "+" ? "✓" : "Adicionado ✓";
+      setTimeout(function () { btn.classList.remove("added"); btn.textContent = original; }, 900);
+    }
+
+    function render() {
+      var count = cart.reduce(function (s, i) { return s + i.qty; }, 0);
+      var total = cart.reduce(function (s, i) { return s + i.qty * i.price; }, 0);
+      $("[data-cart-count]").textContent = count + (count === 1 ? " item" : " itens");
+      $("[data-cart-total]").textContent = money(total);
+      $("[data-sub]").textContent = money(total);
+      $("[data-grand]").textContent = money(total);
+      $("[data-cart-bar]").classList.toggle("show", count > 0);
+      var badge = $("[data-badge]");
+      badge.textContent = count;
+      badge.classList.toggle("show", count > 0);
+
+      var lines = $("[data-lines]");
+      lines.replaceChildren();
+      if (!cart.length) {
+        var p = document.createElement("p");
+        p.className = "empty";
+        p.textContent = "Seu pedido está vazio. Adicione itens do cardápio.";
+        lines.appendChild(p);
+        return;
+      }
+      cart.forEach(function (item, idx) {
+        var row = document.createElement("div"); row.className = "line";
+        var name = document.createElement("span"); name.className = "line-name"; name.textContent = item.name;
+        var qty = document.createElement("div"); qty.className = "qty";
+        var minus = document.createElement("button"); minus.type = "button"; minus.textContent = "−"; minus.setAttribute("aria-label", "Remover um " + item.name);
+        var n = document.createElement("span"); n.textContent = item.qty;
+        var plus = document.createElement("button"); plus.type = "button"; plus.textContent = "+"; plus.setAttribute("aria-label", "Adicionar mais um " + item.name);
+        minus.onclick = function () { item.qty--; if (item.qty <= 0) cart.splice(idx, 1); render(); };
+        plus.onclick = function () { item.qty++; render(); };
+        qty.append(minus, n, plus);
+        var price = document.createElement("span"); price.className = "line-price"; price.textContent = money(item.price * item.qty);
+        row.append(name, qty, price);
+        lines.appendChild(row);
+      });
+    }
+
+    document.querySelectorAll("[data-add]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var parts = btn.getAttribute("data-add").split("|");
+        addItem(parts[0], Number(parts[1]));
+        flash(btn);
+      });
+    });
+
+    // ---------- Destaque do topo (miniaturas) ----------
+    var stageImg = $("[data-stage]");
+    var current = { name: "Duplo Smash", price: 34 };
+    document.querySelectorAll("[data-pick]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        if (btn.getAttribute("aria-pressed") === "true") return;
+        var p = btn.getAttribute("data-pick").split("|");
+        document.querySelectorAll("[data-pick]").forEach(function (b) { b.setAttribute("aria-pressed", String(b === btn)); });
+        current = { name: p[0], price: Number(p[1]) };
+        stageImg.classList.add("leaving");
+        setTimeout(function () {
+          stageImg.src = "https://images.unsplash.com/" + p[2] + "?auto=format&fit=crop&w=1000&h=1000&q=72";
+          stageImg.alt = p[0] + ": " + p[3];
+          $("[data-stage-name]").textContent = p[0];
+          $("[data-stage-price]").textContent = money(current.price);
+          stageImg.onload = function () { stageImg.classList.remove("leaving"); };
+          setTimeout(function () { stageImg.classList.remove("leaving"); }, 700);
+        }, 250);
+      });
+    });
+    $("[data-stage-add]").addEventListener("click", function (e) { addItem(current.name, current.price); flash(e.currentTarget); });
+
+    // ---------- Painel ----------
+    var drawer = $("[data-drawer]"), lastFocus = null;
+    function openCart() { lastFocus = document.activeElement; drawer.classList.add("open"); document.body.style.overflow = "hidden"; $(".close").focus(); }
+    function closeCart() { drawer.classList.remove("open"); document.body.style.overflow = ""; if (lastFocus) lastFocus.focus(); }
+    document.querySelectorAll("[data-open-cart]").forEach(function (b) { b.addEventListener("click", openCart); });
+    drawer.querySelectorAll("[data-close]").forEach(function (b) { b.addEventListener("click", closeCart); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && drawer.classList.contains("open")) closeCart(); });
+
+    var form = $("[data-form]");
+    function syncMode() { $("[data-address]").hidden = form.mode.value !== "Entrega"; }
+    form.querySelectorAll("[name=mode]").forEach(function (r) { r.addEventListener("change", syncMode); });
+    syncMode();
+
+    $("[data-send]").addEventListener("click", function () {
+      var err = $("[data-error]");
+      var delivery = form.mode.value === "Entrega";
+      if (!cart.length) { err.textContent = "Adicione pelo menos um item ao pedido."; return; }
+      if (!form.name.value.trim()) { err.textContent = "Informe seu nome."; form.name.focus(); return; }
+      if (delivery && form.address.value.trim().length < 6) { err.textContent = "Informe o endereço com número e bairro."; form.address.focus(); return; }
+      err.textContent = "";
+      var total = cart.reduce(function (s, i) { return s + i.qty * i.price; }, 0);
+      var lines = ["*Novo pedido - Na Chapa Burger*", ""];
+      cart.forEach(function (i) { lines.push(i.qty + "x " + i.name + " - " + money(i.qty * i.price)); });
+      lines.push("", "*Total dos itens:* " + money(total));
+      lines.push("*" + form.mode.value + "*" + (delivery ? ": " + form.address.value.trim() : ""));
+      lines.push("*Nome:* " + form.name.value.trim());
+      lines.push("*Pagamento:* " + form.pay.value);
+      if (form.obs.value.trim()) lines.push("*Obs.:* " + form.obs.value.trim());
+      window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(lines.join("\n")), "_blank", "noopener");
+    });
+
+    // ---------- Categoria ativa ao rolar ----------
+    var cats = Array.prototype.slice.call(document.querySelectorAll(".cats a"));
+    if ("IntersectionObserver" in window) {
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) cats.forEach(function (a) { a.classList.toggle("is-active", a.getAttribute("href") === "#" + en.target.id); });
+        });
+      }, { rootMargin: "-40% 0px -55% 0px" });
+      document.querySelectorAll(".group").forEach(function (g) { obs.observe(g); });
+    }
+
+    render();
+  })();
+  </script>
+</body>
+</html>
