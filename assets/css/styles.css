@@ -687,6 +687,37 @@ h3 {
   margin-top: clamp(48px, 5vw, 64px);
 }
 
+/* Trabalhos */
+.work-list { display: grid; gap: clamp(72px, 8vw, 120px); }
+.work-item {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 24px;
+  align-items: center;
+}
+.work-stage { position: relative; margin: 0; grid-column: 1 / span 8; padding-right: 9%; }
+.work-item:nth-child(even) .work-stage { grid-column: 5 / span 8; grid-row: 1; }
+.work-item:nth-child(even) .work-text { grid-column: 1 / span 4; grid-row: 1; }
+.frame-work { position: relative; }
+.frame-phone-work { right: 0; top: auto; bottom: -8%; width: 21%; }
+.work-text { grid-column: 10 / span 3; }
+.work-text h3 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(30px, 3.1vw, 44px);
+  line-height: 1.08;
+}
+.work-text p { margin: 14px 0 24px; color: var(--graphite-2); font-size: 16px; line-height: 1.6; }
+@media (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] .frame-phone-work { transition-delay: 0.2s; }
+}
+@media (max-width: 860px) {
+  .work-item { display: flex; flex-direction: column; align-items: stretch; gap: 28px; }
+  .work-stage { padding-right: 0; }
+  .frame-work { position: relative; }
+  .work-text { max-width: 36em; }
+}
+
 /* Processo */
 .process-list {
   display: grid;
