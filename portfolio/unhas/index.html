@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rosé Nail Studio | Manicure, gel e alongamento</title>
+  <meta name="description" content="Rosé Nail Studio: manicure, pedicure, esmaltação em gel e alongamento com hora marcada. Agende pelo WhatsApp. Projeto demonstrativo da Feitiva.">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#fff4f7">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23d6457f'/%3E%3Ctext x='50%25' y='56%25' dominant-baseline='middle' text-anchor='middle' fill='%23fff' font-family='Georgia' font-style='italic' font-size='34'%3ER%3C/text%3E%3C/svg%3E">
+  <link rel="preload" href="../assets/fonts/dm-serif-display-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <style>
+    @font-face { font-family: "DM Serif Display"; font-style: normal; font-weight: 400; font-display: swap; src: url("../assets/fonts/dm-serif-display-latin-400-normal.woff2") format("woff2"); }
+    @font-face { font-family: "DM Serif Display"; font-style: italic; font-weight: 400; font-display: swap; src: url("../assets/fonts/dm-serif-display-latin-400-italic.woff2") format("woff2"); }
+    @font-face { font-family: "Jost"; font-weight: 300; font-display: swap; src: url("../assets/fonts/jost-latin-300-normal.woff2") format("woff2"); }
+    @font-face { font-family: "Jost"; font-weight: 400; font-display: swap; src: url("../assets/fonts/jost-latin-400-normal.woff2") format("woff2"); }
+    @font-face { font-family: "Jost"; font-weight: 500; font-display: swap; src: url("../assets/fonts/jost-latin-500-normal.woff2") format("woff2"); }
+
+    :root {
+      --white: #ffffff;
+      --blush: #fff4f7;
+      --petal: #fbe3eb;
+      --petal-2: #f6cfdc;
+      --pink: #d6457f;
+      --pink-2: #bf3570;
+      --plum: #4b2e3c;
+      --muted: #876c79;
+      --line: #f1d9e2;
+      --serif: "DM Serif Display", Georgia, serif;
+      --sans: "Jost", "Helvetica Neue", Arial, sans-serif;
+      --wrap: 1160px;
+      --pad: clamp(20px, 5vw, 48px);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+    body { margin: 0; background: var(--white); color: var(--plum); font: 400 17px/1.65 var(--sans); -webkit-font-smoothing: antialiased; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    h1, h2, h3, p { margin: 0; }
+    ul, ol { margin: 0; padding: 0; list-style: none; }
+    button { font: inherit; cursor: pointer; }
+    :focus-visible { outline: 2px solid var(--pink); outline-offset: 3px; border-radius: 4px; }
+    .wrap { max-width: calc(var(--wrap) + var(--pad) * 2); margin: 0 auto; padding: 0 var(--pad); }
+
+    .demo-bar { background: var(--plum); color: #f3dde6; font-size: 13px; text-align: center; padding: 9px 16px; }
+    .demo-bar a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+
+    /* Cabeçalho */
+    header { position: sticky; top: 0; z-index: 30; background: rgba(255,255,255,.92); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+    .nav { display: flex; align-items: center; gap: 32px; height: 76px; }
+    .logo { display: flex; flex-direction: column; line-height: 1; }
+    .logo b { font: 400 30px/1 var(--serif); font-style: italic; color: var(--pink); }
+    .logo small { margin-top: 3px; font-size: 11px; letter-spacing: .28em; text-transform: uppercase; color: var(--muted); }
+    .nav-links { display: flex; gap: 28px; margin-left: auto; font-size: 16px; color: var(--muted); }
+    .nav-links a { position: relative; padding: 4px 0; transition: color .2s; }
+    .nav-links a:hover { color: var(--pink); }
+
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 28px; border: 1px solid var(--pink); border-radius: 999px; background: var(--pink); color: #fff; font: 500 16px/1 var(--sans); letter-spacing: .01em; transition: background-color .2s, border-color .2s, color .2s, transform .15s; }
+    .btn:hover { background: var(--pink-2); border-color: var(--pink-2); }
+    .btn:active { transform: translateY(1px); }
+    .btn svg { width: 20px; height: 20px; flex: none; }
+    .btn-outline { background: transparent; color: var(--pink); border-color: var(--petal-2); }
+    .btn-outline:hover { background: var(--blush); border-color: var(--pink); color: var(--pink-2); }
+    .btn-sm { min-height: 42px; padding: 0 20px; font-size: 15px; }
+
+    /* Topo */
+    .hero { background: linear-gradient(180deg, var(--blush) 0%, var(--white) 100%); padding: clamp(48px, 7vw, 96px) 0 clamp(64px, 8vw, 112px); overflow: hidden; }
+    .hero-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(32px, 6vw, 80px); align-items: center; }
+    .pill { display: inline-flex; align-items: center; gap: 8px; padding: 7px 16px; border-radius: 999px; background: var(--white); border: 1px solid var(--line); color: var(--muted); font-size: 14px; margin-bottom: 26px; }
+    .pill i { width: 7px; height: 7px; border-radius: 50%; background: var(--pink); }
+    h1 { font: 400 clamp(52px, 7.4vw, 100px)/1 var(--serif); color: var(--pink); letter-spacing: -0.015em; }
+    h1 em { display: block; font-style: italic; color: var(--plum); }
+    .hero-copy > p { margin-top: 24px; max-width: 28em; color: var(--muted); font-size: clamp(17px, 1.5vw, 19px); }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+    .trust { display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 40px; font-size: 15px; color: var(--plum); }
+    .trust li { display: inline-flex; align-items: center; gap: 8px; }
+    .trust svg { width: 18px; height: 18px; color: var(--pink); flex: none; }
+
+    .hero-art { position: relative; justify-self: center; width: min(100%, 460px); }
+    .arch { width: 100%; aspect-ratio: 4 / 5; border-radius: 999px 999px 24px 24px; overflow: hidden; background: var(--petal); box-shadow: 0 40px 80px -40px rgba(214,69,127,.45); }
+    .arch img { width: 100%; height: 100%; object-fit: cover; }
+    .bubble { position: absolute; left: -14%; bottom: 10%; width: 42%; aspect-ratio: 1; border-radius: 50%; overflow: hidden; border: 6px solid var(--white); box-shadow: 0 20px 40px -20px rgba(75,46,60,.4); }
+    .bubble img { width: 100%; height: 100%; object-fit: cover; }
+    .price-tag { position: absolute; right: -6%; top: 12%; padding: 14px 18px; border-radius: 18px; background: var(--white); box-shadow: 0 18px 40px -18px rgba(75,46,60,.35); font-size: 14px; color: var(--muted); line-height: 1.3; }
+    .price-tag b { display: block; font: 400 26px/1.1 var(--serif); color: var(--pink); }
+
+    /* Seções */
+    section { padding: clamp(72px, 10vw, 128px) 0; }
+    .sec-head { text-align: center; max-width: 640px; margin: 0 auto clamp(40px, 5vw, 64px); }
+    .sec-head .eyebrow { display: block; font: italic 400 22px/1.2 var(--serif); color: var(--muted); margin-bottom: 6px; }
+    h2 { font: 400 clamp(40px, 5vw, 64px)/1.05 var(--serif); color: var(--pink); letter-spacing: -0.01em; }
+    .sec-head p { margin-top: 14px; color: var(--muted); }
+
+    /* Serviços */
+    .services { background: var(--blush); }
+    .tabs { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
+    .tabs button { min-height: 44px; padding: 0 20px; border: 1px solid var(--petal-2); border-radius: 999px; background: var(--white); color: var(--plum); font-size: 15px; transition: background-color .2s, color .2s, border-color .2s; }
+    .tabs button:hover { border-color: var(--pink); color: var(--pink); }
+    .tabs button[aria-selected="true"] { background: var(--pink); border-color: var(--pink); color: #fff; }
+    .panel[hidden] { display: none; }
+    .service-list { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 980px; margin: 0 auto; }
+    .service { display: grid; grid-template-columns: 1fr auto; gap: 4px 20px; align-items: center; padding: 22px 24px; border-radius: 20px; background: var(--white); border: 1px solid var(--line); transition: border-color .2s, transform .2s; }
+    .service:hover { border-color: var(--petal-2); transform: translateY(-2px); }
+    .service h3 { font: 400 24px/1.15 var(--serif); color: var(--plum); }
+    .service .price { font: 400 24px/1 var(--serif); color: var(--pink); text-align: right; }
+    .service p { color: var(--muted); font-size: 15px; }
+    .service .book { justify-self: end; border: 0; background: none; color: var(--pink); font-weight: 500; font-size: 15px; padding: 6px 0; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--petal-2); transition: text-decoration-color .2s; }
+    .service .book:hover { text-decoration-color: var(--pink); }
+    .services-note { text-align: center; margin-top: 28px; color: var(--muted); font-size: 14px; }
+
+    /* Galeria */
+    .gallery { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 220px; gap: 14px; }
+    .gallery figure { margin: 0; overflow: hidden; border-radius: 20px; background: var(--petal); }
+    .gallery figure:nth-child(1) { grid-row: span 2; }
+    .gallery figure:nth-child(4) { grid-row: span 2; }
+    .gallery img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+    .gallery figure:hover img { transform: scale(1.05); }
+    .insta { text-align: center; margin-top: 28px; color: var(--muted); }
+    .insta a { color: var(--pink); font-weight: 500; }
+
+    /* Biossegurança */
+    .care-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: clamp(32px, 6vw, 80px); align-items: center; }
+    .care-photo { border-radius: 24px; overflow: hidden; aspect-ratio: 4 / 5; background: var(--petal); }
+    .care-photo img { width: 100%; height: 100%; object-fit: cover; }
+    .care-grid .sec-head { text-align: left; margin: 0 0 32px; }
+    .care-list { display: grid; gap: 18px; }
+    .care-list li { display: grid; grid-template-columns: 52px 1fr; gap: 16px; align-items: start; }
+    .care-list .ico { display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%; background: var(--blush); color: var(--pink); }
+    .care-list .ico svg { width: 24px; height: 24px; }
+    .care-list h3 { font: 400 22px/1.2 var(--serif); color: var(--plum); }
+    .care-list p { color: var(--muted); font-size: 16px; }
+
+    /* Agendamento */
+    .booking { background: linear-gradient(180deg, var(--white) 0%, var(--blush) 100%); }
+    .booking-card { display: grid; grid-template-columns: .9fr 1.1fr; max-width: 1000px; margin: 0 auto; border-radius: 28px; overflow: hidden; background: var(--white); box-shadow: 0 40px 80px -50px rgba(75,46,60,.45); border: 1px solid var(--line); }
+    .booking-side { padding: clamp(32px, 4vw, 48px); background: var(--pink); color: #fff; display: flex; flex-direction: column; gap: 18px; }
+    .booking-side h2 { color: #fff; }
+    .booking-side p { color: #fde6ef; }
+    .booking-side ol { display: grid; gap: 12px; margin-top: auto; }
+    .booking-side li { display: flex; gap: 12px; align-items: center; color: #fff; font-size: 16px; }
+    .booking-side li b { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,.2); font-weight: 500; flex: none; }
+    .form { padding: clamp(28px, 4vw, 48px); display: grid; gap: 18px; }
+    .field { display: grid; gap: 8px; }
+    .field > span, .field legend { font-weight: 500; font-size: 15px; color: var(--plum); padding: 0; }
+    fieldset { border: 0; margin: 0; padding: 0; }
+    .form input, .form select, .form textarea { width: 100%; padding: 13px 16px; border: 1px solid var(--petal-2); border-radius: 14px; background: var(--white); color: var(--plum); font: 400 16px/1.4 var(--sans); transition: border-color .2s, box-shadow .2s; }
+    .form input:focus, .form select:focus, .form textarea:focus { outline: none; border-color: var(--pink); box-shadow: 0 0 0 4px rgba(214,69,127,.12); }
+    .form textarea { min-height: 84px; resize: vertical; }
+    .two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; padding: 5px; border-radius: 999px; background: var(--blush); border: 1px solid var(--line); }
+    .seg input { position: absolute; opacity: 0; pointer-events: none; }
+    .seg label { display: block; text-align: center; padding: 10px 6px; border-radius: 999px; font-size: 15px; color: var(--muted); cursor: pointer; transition: background-color .2s, color .2s; }
+    .seg input:checked + label { background: var(--white); color: var(--pink); font-weight: 500; box-shadow: 0 4px 12px -6px rgba(214,69,127,.5); }
+    .seg input:focus-visible + label { outline: 2px solid var(--pink); }
+    .error { min-height: 22px; color: var(--pink-2); font-size: 14px; font-weight: 500; }
+    .form .btn { width: 100%; background: #1f9d55; border-color: #1f9d55; }
+    .form .btn:hover { background: #188547; border-color: #188547; }
+    .form small { color: var(--muted); font-size: 13px; text-align: center; }
+
+    /* Visite */
+    .visit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    .visit-card { padding: 28px; border-radius: 22px; background: var(--blush); border: 1px solid var(--line); }
+    .visit-card h3 { font: 400 24px/1.2 var(--serif); color: var(--pink); margin-bottom: 10px; }
+    .visit-card p, .visit-card li { color: var(--plum); }
+    .visit-card li { display: flex; justify-content: space-between; gap: 12px; padding: 4px 0; }
+    .visit-card li span:last-child { color: var(--muted); }
+
+    footer { border-top: 1px solid var(--line); padding: 36px 0 120px; color: var(--muted); font-size: 14px; }
+    footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 32px; }
+    footer a { color: var(--pink); }
+
+    .wa-float { position: fixed; right: 20px; bottom: 20px; z-index: 40; display: grid; place-items: center; width: 60px; height: 60px; border-radius: 50%; background: #25d366; color: #fff; box-shadow: 0 12px 30px rgba(37,211,102,.4); transition: transform .2s; }
+    .wa-float:hover { transform: scale(1.06); }
+    .wa-float svg { width: 30px; height: 30px; }
+
+    @media (max-width: 920px) {
+      .nav-links { display: none; }
+      .nav .btn { margin-left: auto; }
+      .hero-grid, .care-grid, .booking-card { grid-template-columns: 1fr; }
+      .hero-art { width: min(82%, 400px); margin-top: 16px; }
+      .gallery { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 200px; }
+      .gallery figure:nth-child(4) { grid-row: auto; }
+      .visit-grid { grid-template-columns: 1fr; }
+      .care-photo { aspect-ratio: 4 / 3; }
+    }
+    @media (max-width: 640px) {
+      .service-list { grid-template-columns: 1fr; }
+      .hero-actions .btn { flex: 1 1 100%; }
+      .bubble { left: -8%; }
+      .price-tag { right: -4%; }
+      .two { grid-template-columns: 1fr; }
+      .gallery { grid-auto-rows: 160px; gap: 10px; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; } }
+  </style>
+</head>
+<body>
+  <div class="demo-bar">Projeto demonstrativo criado pela Feitiva. <a href="https://feitiva.vercel.app/#contato">Quero um site assim</a></div>
+
+  <header>
+    <div class="wrap nav">
+      <a class="logo" href="#" aria-label="Rosé Nail Studio, início"><b>Rosé</b><small>Nail Studio</small></a>
+      <nav class="nav-links" aria-label="Navegação">
+        <a href="#servicos">Serviços</a>
+        <a href="#trabalhos">Trabalhos</a>
+        <a href="#cuidados">Cuidados</a>
+        <a href="#visite">Visite</a>
+      </nav>
+      <a class="btn btn-sm" href="#agendar">Agendar</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="wrap hero-grid">
+        <div class="hero-copy">
+          <span class="pill"><i aria-hidden="true"></i>Nail designer · Centro</span>
+          <h1 id="hero-title">Unhas lindas, <em>do seu jeito.</em></h1>
+          <p>Manicure, esmaltação em gel e alongamento com hora marcada, num espaço pensado para você relaxar enquanto a gente cuida dos detalhes.</p>
+          <div class="hero-actions">
+            <a class="btn" href="#agendar">Agendar horário</a>
+            <a class="btn btn-outline" href="#servicos">Ver serviços e preços</a>
+          </div>
+          <ul class="trust">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Materiais esterilizados</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Lixas descartáveis</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>Sem espera</li>
+          </ul>
+        </div>
+        <div class="hero-art">
+          <div class="arch"><img src="https://images.unsplash.com/photo-1612887390768-fb02affea7a6?auto=format&fit=crop&w=900&h=1125&q=72" width="900" height="1125" fetchpriority="high" alt="Mão com unhas amendoadas em tom rosa sobre tecido branco"></div>
+          <div class="bubble"><img src="https://images.unsplash.com/photo-1610992015762-45dca7fa3a85?auto=format&fit=crop&w=400&h=400&q=70" alt="Unhas bem cuidadas em tom rosa claro"></div>
+          <div class="price-tag">Esmaltação em gel<b>a partir de R$ 70</b></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="services" id="servicos" aria-labelledby="servicos-title">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="eyebrow">o que fazemos</span>
+          <h2 id="servicos-title">Serviços e preços</h2>
+          <p>Escolha o serviço e toque em "Agendar". O pedido de horário já vem preenchido.</p>
+        </div>
+
+        <div class="tabs" role="tablist" aria-label="Categorias de serviço">
+          <button role="tab" aria-selected="true" aria-controls="p-maos" id="t-maos">Mãos e pés</button>
+          <button role="tab" aria-selected="false" aria-controls="p-gel" id="t-gel" tabindex="-1">Gel</button>
+          <button role="tab" aria-selected="false" aria-controls="p-along" id="t-along" tabindex="-1">Alongamento</button>
+          <button role="tab" aria-selected="false" aria-controls="p-extras" id="t-extras" tabindex="-1">Extras</button>
+        </div>
+
+        <div class="panel" id="p-maos" role="tabpanel" aria-labelledby="t-maos">
+          <ul class="service-list">
+            <li class="service"><h3>Manicure</h3><span class="price">R$ 35</span><p>Cutilagem e esmaltação tradicional · 45 min</p><button class="book" data-service="Manicure">Agendar</button></li>
+            <li class="service"><h3>Pedicure</h3><span class="price">R$ 40</span><p>Cutilagem, lixa nos pés e esmaltação · 50 min</p><button class="book" data-service="Pedicure">Agendar</button></li>
+            <li class="service"><h3>Pé e mão</h3><span class="price">R$ 70</span><p>O combo mais pedido · 1h30</p><button class="book" data-service="Pé e mão">Agendar</button></li>
+            <li class="service"><h3>Spa dos pés</h3><span class="price">R$ 55</span><p>Esfoliação, hidratação e esmaltação · 1h</p><button class="book" data-service="Spa dos pés">Agendar</button></li>
+          </ul>
+        </div>
+        <div class="panel" id="p-gel" role="tabpanel" aria-labelledby="t-gel" hidden>
+          <ul class="service-list">
+            <li class="service"><h3>Esmaltação em gel</h3><span class="price">R$ 70</span><p>Brilho que dura até 3 semanas · 1h</p><button class="book" data-service="Esmaltação em gel">Agendar</button></li>
+            <li class="service"><h3>Blindagem</h3><span class="price">R$ 80</span><p>Camada de gel que fortalece a unha natural · 1h15</p><button class="book" data-service="Blindagem">Agendar</button></li>
+            <li class="service"><h3>Banho de gel</h3><span class="price">R$ 90</span><p>Mais resistência e acabamento natural · 1h20</p><button class="book" data-service="Banho de gel">Agendar</button></li>
+            <li class="service"><h3>Remoção de gel</h3><span class="price">R$ 30</span><p>Retirada sem agredir a unha · 30 min</p><button class="book" data-service="Remoção de gel">Agendar</button></li>
+          </ul>
+        </div>
+        <div class="panel" id="p-along" role="tabpanel" aria-labelledby="t-along" hidden>
+          <ul class="service-list">
+            <li class="service"><h3>Fibra de vidro</h3><span class="price">R$ 150</span><p>Alongamento leve e natural · 2h30</p><button class="book" data-service="Alongamento em fibra de vidro">Agendar</button></li>
+            <li class="service"><h3>Gel na tips</h3><span class="price">R$ 140</span><p>Comprimento e formato do seu jeito · 2h</p><button class="book" data-service="Alongamento gel na tips">Agendar</button></li>
+            <li class="service"><h3>Manutenção</h3><span class="price">R$ 100</span><p>A cada 15 a 21 dias · 1h30</p><button class="book" data-service="Manutenção de alongamento">Agendar</button></li>
+          </ul>
+        </div>
+        <div class="panel" id="p-extras" role="tabpanel" aria-labelledby="t-extras" hidden>
+          <ul class="service-list">
+            <li class="service"><h3>Nail art</h3><span class="price">R$ 10</span><p>Por unha · desenhos, pedrarias e francesinha</p><button class="book" data-service="Nail art">Agendar</button></li>
+            <li class="service"><h3>Francesinha</h3><span class="price">R$ 15</span><p>Adicional em qualquer esmaltação</p><button class="book" data-service="Francesinha">Agendar</button></li>
+          </ul>
+        </div>
+        <p class="services-note">Preços de exemplo, para demonstração.</p>
+      </div>
+    </section>
+
+    <section id="trabalhos" aria-labelledby="trabalhos-title">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="eyebrow">feitos com carinho</span>
+          <h2 id="trabalhos-title">Nossos trabalhos</h2>
+        </div>
+        <div class="gallery">
+          <figure><img loading="lazy" src="https://images.unsplash.com/photo-1604902396830-aca29e19b067?auto=format&fit=crop&w=600&h=900&q=70" alt="Unhas rosadas sobre fundo rosa"></figure>
+          <figure><img loading="lazy" src="https://images.unsplash.com/photo-1769687209448-025548dfca8b?auto=format&fit=crop&w=600&h=440&q=70" alt="Unhas decoradas com detalhes delicados"></figure>
+          <figure><img loading="lazy" src="https://images.unsplash.com/photo-1684609365994-a144ee021c88?auto=format&fit=crop&w=600&h=440&q=70" alt="Unhas longas com glitter rosé"></figure>
+          <figure><img loading="lazy" src="https://images.unsplash.com/photo-1680540484256-f9192e550aa2?auto=format&fit=crop&w=600&h=900&q=70" alt="Mãos com esmaltação rosa e branca"></figure>
+          <figure><img loading="lazy" src="https://images.unsplash.com/photo-1709839454771-704f7af2ce0c?auto=format&fit=crop&w=600&h=440&q=70" alt="Unhas em tom nude com acabamento natural"></figure>
+          <figure><img loading="lazy" src="https://images.unsplash.com/photo-1754799670380-17640d939e32?auto=format&fit=crop&w=600&h=440&q=70" alt="Mãos com unhas feitas e anéis"></figure>
+        </div>
+        <p class="insta">Veja mais no Instagram: <a href="#">@rosenailstudio</a></p>
+      </div>
+    </section>
+
+    <section id="cuidados" aria-labelledby="cuidados-title">
+      <div class="wrap care-grid">
+        <div class="care-photo"><img loading="lazy" src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=800&h=1000&q=70" alt="Esmaltação de unhas em tom rosa"></div>
+        <div>
+          <div class="sec-head">
+            <span class="eyebrow">sua segurança primeiro</span>
+            <h2 id="cuidados-title">Cuidado em cada detalhe</h2>
+          </div>
+          <ul class="care-list">
+            <li><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-4"/></svg></span><div><h3>Materiais esterilizados</h3><p>Alicates e espátulas passam por autoclave e são abertos na sua frente.</p></div></li>
+            <li><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4h8v2"/><path d="M19 6l-1 14H6L5 6"/></svg></span><div><h3>Lixas e palitos descartáveis</h3><p>Usados uma única vez, só no seu atendimento.</p></div></li>
+            <li><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><div><h3>Hora marcada, sem espera</h3><p>Um atendimento por vez, com tempo para fazer tudo com calma.</p></div></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="booking" id="agendar" aria-labelledby="agendar-title">
+      <div class="wrap">
+        <div class="booking-card">
+          <div class="booking-side">
+            <h2 id="agendar-title">Agende seu horário</h2>
+            <p>Escolha o serviço, o dia e o período. A mensagem abre pronta no WhatsApp e a gente confirma o horário com você.</p>
+            <ol>
+              <li><b>1</b>Preencha os dados</li>
+              <li><b>2</b>Envie pelo WhatsApp</li>
+              <li><b>3</b>Receba a confirmação</li>
+            </ol>
+          </div>
+          <form class="form" data-form novalidate>
+            <label class="field"><span>Serviço</span>
+              <select name="service" required>
+                <option value="">Selecione</option>
+                <optgroup label="Mãos e pés"><option>Manicure</option><option>Pedicure</option><option>Pé e mão</option><option>Spa dos pés</option></optgroup>
+                <optgroup label="Gel"><option>Esmaltação em gel</option><option>Blindagem</option><option>Banho de gel</option><option>Remoção de gel</option></optgroup>
+                <optgroup label="Alongamento"><option>Alongamento em fibra de vidro</option><option>Alongamento gel na tips</option><option>Manutenção de alongamento</option></optgroup>
+                <optgroup label="Extras"><option>Nail art</option><option>Francesinha</option></optgroup>
+              </select>
+            </label>
+            <div class="two">
+              <label class="field"><span>Dia</span><input type="date" name="date" required></label>
+              <label class="field"><span>Seu nome</span><input name="name" autocomplete="given-name" required></label>
+            </div>
+            <fieldset class="field">
+              <legend>Período</legend>
+              <div class="seg">
+                <input type="radio" name="period" id="pm" value="Manhã" checked><label for="pm">Manhã</label>
+                <input type="radio" name="period" id="pt" value="Tarde"><label for="pt">Tarde</label>
+                <input type="radio" name="period" id="pn" value="Noite"><label for="pn">Noite</label>
+              </div>
+            </fieldset>
+            <label class="field"><span>Observação <small style="font-size:13px;color:var(--muted)">(opcional)</small></span><textarea name="obs" placeholder="Ex.: quero repetir a cor da última vez, tenho alergia a algum produto..."></textarea></label>
+            <p class="error" data-error role="alert"></p>
+            <button class="btn" type="submit">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3Z"/></svg>
+              Pedir horário pelo WhatsApp
+            </button>
+            <small>O horário só fica garantido depois da nossa confirmação.</small>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section id="visite" aria-labelledby="visite-title">
+      <div class="wrap">
+        <div class="sec-head"><span class="eyebrow">te esperamos</span><h2 id="visite-title">Visite o estúdio</h2></div>
+        <div class="visit-grid">
+          <div class="visit-card"><h3>Endereço</h3><p>Rua das Hortênsias, 85, sala 2<br>Centro</p></div>
+          <div class="visit-card"><h3>Horários</h3><ul><li><span>Terça a sexta</span><span>9h às 19h</span></li><li><span>Sábado</span><span>8h às 16h</span></li><li><span>Domingo e segunda</span><span>Fechado</span></li></ul></div>
+          <div class="visit-card"><h3>Pagamento</h3><p>Pix, cartão de crédito e débito. Endereço e valores de exemplo, para demonstração.</p></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© <span data-year>2026</span> Rosé Nail Studio · marca fictícia</span>
+      <span>Site feito pela <a href="https://feitiva.vercel.app">Feitiva</a></span>
+    </div>
+  </footer>
+
+  <a class="wa-float" href="https://wa.me/5511900000000?text=Ol%C3%A1!%20Quero%20agendar%20um%20hor%C3%A1rio." target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3Z"/></svg>
+  </a>
+
+  <script>
+  (function () {
+    "use strict";
+    var WHATSAPP = "5511900000000"; // número fictício de demonstração
+    document.querySelectorAll("[data-year]").forEach(function (e) { e.textContent = new Date().getFullYear(); });
+
+    // Abas de serviços (com teclado)
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+    function select(tab) {
+      tabs.forEach(function (t) {
+        var on = t === tab;
+        t.setAttribute("aria-selected", String(on));
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+      });
+    }
+    tabs.forEach(function (t, i) {
+      t.addEventListener("click", function () { select(t); });
+      t.addEventListener("keydown", function (e) {
+        if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+        var next = tabs[(i + (e.key === "ArrowRight" ? 1 : tabs.length - 1)) % tabs.length];
+        select(next); next.focus();
+      });
+    });
+
+    var form = document.querySelector("[data-form]");
+    var err = document.querySelector("[data-error]");
+
+    // Data mínima: hoje
+    var today = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+    form.date.min = today;
+
+    // "Agendar" em um serviço preenche o formulário
+    document.querySelectorAll("[data-service]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        form.service.value = b.getAttribute("data-service");
+        document.getElementById("agendar").scrollIntoView({ behavior: "smooth" });
+        setTimeout(function () { form.date.focus({ preventScroll: true }); }, 600);
+      });
+    });
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!form.service.value) { err.textContent = "Escolha um serviço."; form.service.focus(); return; }
+      if (!form.date.value || form.date.value < today) { err.textContent = "Escolha um dia a partir de hoje."; form.date.focus(); return; }
+      if (new Date(form.date.value + "T12:00:00").getDay() === 0 || new Date(form.date.value + "T12:00:00").getDay() === 1) { err.textContent = "Atendemos de terça a sábado. Escolha outro dia."; form.date.focus(); return; }
+      if (!form.name.value.trim()) { err.textContent = "Informe seu nome."; form.name.focus(); return; }
+      err.textContent = "";
+      var d = form.date.value.split("-");
+      var lines = [
+        "Olá! Gostaria de agendar um horário 💅",
+        "",
+        "*Serviço:* " + form.service.value,
+        "*Dia:* " + d[2] + "/" + d[1] + "/" + d[0],
+        "*Período:* " + form.period.value,
+        "*Nome:* " + form.name.value.trim()
+      ];
+      if (form.obs.value.trim()) lines.push("*Obs.:* " + form.obs.value.trim());
+      window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(lines.join("\n")), "_blank", "noopener");
+    });
+  })();
+  </script>
+</body>
+</html>
