@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kōri — Iced drinks, made to be yours</title>
+<meta name="description" content="Kōri is an iced-drink atelier: cold lattes, ceremonial matcha, real-cream shakes and fruit refreshers, poured over clear ice." />
+<meta name="theme-color" content="#133a2b" />
+<meta name="robots" content="noindex" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Kōri — Ice cold. Warm welcome." />
+<meta property="og:description" content="Iced lattes, ceremonial matcha, shakes and refreshers poured over clear ice." />
+<meta property="og:image" content="https://images.unsplash.com/photo-1676506739319-70bff65bfc48?auto=format&fit=crop&w=1200&h=630&q=80" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect x='5' y='5' width='22' height='22' rx='7' fill='%23133a2b' transform='rotate(-12 16 16)'/%3E%3Cpath d='M11 12q3-2 6 0' stroke='%23cfe3a8' stroke-width='2.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" />
+
+<!-- Fonts: Gloock (display, soft high-contrast serif) + Figtree (UI/body) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Gloock&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link rel="preconnect" href="https://images.unsplash.com" />
+
+<!-- Motion: GSAP + ScrollTrigger (scroll choreography), Lenis (inertia scroll). Pinned versions. -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js" defer></script>
+
+<style>
+/*
+  VOICE   Premium + playful: a city iced-drink atelier, confident and warm, never formal.
+  IDEA    Ice. Clear cubes, cold glass, condensation. "Kōri" is Japanese for ice.
+  PICTURE Drinks as protagonists: arch-framed pours, floating ice cubes, colour backplates per drink.
+  COLOUR  Ivory field, deep matcha green, pistachio support, tangerine accent; berry only for limited editions.
+  TYPE    Gloock for headlines (soft, editorial), Figtree for everything you read or tap.
+*/
+:root{
+  --ivory:#f5f0e4; --ivory-2:#ece5d4; --forest:#133a2b; --forest-2:#0d2b1f; --ink:#10251b;
+  --pist:#cfe3a8; --pist-2:#b9d48a; --tang:#ff6a2c; --tang-2:#e85a1e; --berry:#f4b6c4; --berry-ink:#5b1a2b;
+  --butter:#f5dc8a; --muted:#4d5f55; --line:rgba(16,37,27,.14);
+  --r-lg:32px; --r-md:20px; --ease:cubic-bezier(.2,.8,.2,1);
+  --wrap:1320px; --gut:clamp(18px,4vw,56px);
+}
+*{box-sizing:border-box;min-width:0}
+html{scroll-padding-top:88px;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ivory);color:var(--ink);font:400 17px/1.55 "Figtree",system-ui,sans-serif;overflow-x:clip;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--tang);outline-offset:3px;border-radius:10px}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--gut)}
+.display{font-family:"Gloock",Georgia,serif;font-weight:400;letter-spacing:-.015em;line-height:.98;text-wrap:balance}
+.sr{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:fixed;left:12px;top:-60px;z-index:100;background:var(--ink);color:var(--ivory);padding:10px 16px;border-radius:12px;transition:top .2s}
+.skip:focus{top:12px}
+
+/* ---------- Buttons ---------- */
+.btn{--bg:var(--tang);--fg:#fff;display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 26px;border:0;border-radius:999px;background:var(--bg);color:var(--fg);font-weight:600;font-size:16px;text-decoration:none;position:relative;overflow:hidden;isolation:isolate;transition:transform .35s var(--ease),background-color .3s}
+.btn::after{content:"";position:absolute;inset:0;z-index:-1;background:var(--ink);transform:translateY(101%);border-radius:inherit;transition:transform .45s var(--ease)}
+.btn:hover::after{transform:none}
+.btn:active{transform:scale(.97)}
+.btn.ghost{--bg:transparent;--fg:currentColor;box-shadow:inset 0 0 0 1.5px currentColor}
+.btn.ghost::after{background:currentColor;opacity:.12}
+.btn.light{--bg:var(--ivory);--fg:var(--ink)}
+.btn.small{min-height:44px;padding:0 18px;font-size:15px}
+.btn svg{flex:none}
+
+/* ---------- Promo bar ---------- */
+.promo{background:var(--forest-2);color:var(--pist);font-size:14px;font-weight:500;overflow:hidden;height:38px;display:flex;align-items:center}
+.promo-track{display:flex;gap:44px;white-space:nowrap;padding-left:44px;will-change:transform}
+.promo-track span{display:inline-flex;align-items:center;gap:12px}
+.promo-track i{width:9px;height:9px;border-radius:3px;background:var(--pist);transform:rotate(-12deg);display:inline-block}
+
+/* ---------- Nav ---------- */
+.nav{position:sticky;top:0;z-index:50;transition:transform .45s var(--ease),background-color .35s,box-shadow .35s;color:var(--ivory)}
+.nav.solid{background:rgba(245,240,228,.86);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);color:var(--ink);box-shadow:0 1px 0 var(--line)}
+.nav.hide{transform:translateY(-100%)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;gap:20px;height:76px}
+.logo{display:inline-flex;align-items:center;gap:10px;text-decoration:none;font-family:"Gloock",serif;font-size:30px;letter-spacing:-.02em;line-height:1}
+.logo svg{width:30px;height:30px}
+.nav-links{display:flex;gap:6px;list-style:none;margin:0;padding:0}
+.nav-links a{display:block;padding:10px 14px;border-radius:999px;text-decoration:none;font-weight:500;font-size:15px;transition:background-color .25s}
+.nav-links a:hover{background:rgba(127,127,127,.14)}
+.nav-cta{display:flex;align-items:center;gap:8px}
+.bag-btn{position:relative;width:48px;height:48px;border-radius:50%;border:0;background:rgba(127,127,127,.16);display:grid;place-items:center}
+.bag-count{position:absolute;top:2px;right:0;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--tang);color:#fff;font-size:12px;font-weight:700;display:grid;place-items:center}
+.burger{display:none;width:48px;height:48px;border:0;border-radius:50%;background:var(--ivory);color:var(--ink)}
+@media (max-width:900px){.nav-links,.nav-cta .btn{display:none}.burger{display:grid;place-items:center}}
+
+/* Mobile menu */
+.mmenu{position:fixed;inset:0;z-index:60;background:var(--forest);color:var(--ivory);display:flex;flex-direction:column;padding:22px var(--gut) 32px;visibility:hidden;clip-path:circle(0% at calc(100% - 44px) 44px);transition:clip-path .7s var(--ease),visibility 0s .7s}
+.mmenu.open{visibility:visible;clip-path:circle(150% at calc(100% - 44px) 44px);transition:clip-path .7s var(--ease)}
+.mmenu-top{display:flex;justify-content:space-between;align-items:center}
+.mmenu nav{margin-top:auto;display:grid;gap:4px}
+.mmenu nav a{font-family:"Gloock",serif;font-size:clamp(44px,13vw,72px);line-height:1.05;text-decoration:none}
+.mmenu .btn{margin-top:28px;align-self:flex-start}
+
+/* ---------- Hero ---------- */
+.hero{background:var(--forest);color:var(--ivory);margin-top:-76px;padding:118px 0 72px;position:relative;overflow:hidden}
+.hero-grid{position:relative;display:grid;grid-template-columns:1fr minmax(260px,30%) 1fr;grid-template-rows:auto auto auto;align-items:center;gap:0 clamp(16px,2.5vw,40px)}
+.h-line{display:block;font-family:"Gloock",serif;font-weight:400;font-size:clamp(56px,9.6vw,156px);line-height:.92;letter-spacing:-.025em;overflow:hidden;padding-bottom:.06em}
+.h-line span{display:inline-block;white-space:nowrap}
+.h-1{grid-column:1/3;grid-row:1;align-self:end}
+.h-2{grid-column:2/4;grid-row:3;justify-self:end;text-align:right;align-self:start}
+.arch-wrap{grid-column:2;grid-row:1/4;position:relative;z-index:0}
+.arch{position:relative;aspect-ratio:3/4.3;border-radius:999px 999px 28px 28px;overflow:hidden;background:var(--forest-2);z-index:0;box-shadow:0 40px 80px -30px rgba(0,0,0,.55)}
+.arch img{width:100%;height:100%;object-fit:cover}
+.h-1,.h-2{position:relative;z-index:1;text-shadow:0 4px 40px rgba(8,28,20,.35);pointer-events:none}
+.hero-copy{grid-column:3;grid-row:1;align-self:start;max-width:340px;justify-self:end;font-size:17px;color:rgba(245,240,228,.82);padding-top:8px}
+.hero-actions{grid-column:1;grid-row:3;display:flex;flex-wrap:wrap;gap:12px;align-self:end;padding-bottom:8px}
+.hero-actions .btn.ghost{color:var(--ivory)}
+.bubble{position:absolute;z-index:2;width:clamp(110px,11vw,170px);aspect-ratio:1;border-radius:50%;overflow:hidden;border:6px solid var(--forest);left:-18%;bottom:12%;box-shadow:0 20px 40px -18px rgba(0,0,0,.5)}
+.bubble img{width:100%;height:100%;object-fit:cover}
+.badge{position:absolute;z-index:3;right:-16%;top:8%;width:clamp(104px,9vw,136px);aspect-ratio:1;border-radius:50%;background:var(--tang);color:#fff;display:grid;place-items:center;text-decoration:none}
+.badge svg{position:absolute;inset:0;width:100%;height:100%}
+.badge b{font-family:"Gloock",serif;font-size:15px;line-height:1.05;text-align:center;font-weight:400}
+.cube{position:absolute;z-index:1;pointer-events:none;will-change:transform}
+.hero-foot{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-top:44px;padding-top:22px;border-top:1px solid rgba(245,240,228,.18);font-size:15px;color:rgba(245,240,228,.75);flex-wrap:wrap}
+.hero-foot strong{color:var(--ivory);font-weight:600}
+@media (max-width:900px){
+  .hero{padding:108px 0 56px}
+  .hero-grid{grid-template-columns:1fr 1fr;grid-template-rows:auto auto auto auto;gap:18px}
+  .h-1{grid-column:1/3;grid-row:1}
+  .arch-wrap{grid-column:1/3;grid-row:2;width:min(72%,360px);justify-self:center}
+  .arch{aspect-ratio:3/3.8}
+  .h-2{grid-column:1/3;grid-row:3;justify-self:end}
+  .hero-copy{grid-column:1/3;grid-row:4;justify-self:start;max-width:520px}
+  .hero-actions{grid-column:1/3;grid-row:5}
+  .bubble{left:-14%;bottom:6%}
+  .badge{right:-12%;top:4%}
+}
+
+/* ---------- Section scaffolding ---------- */
+section{position:relative}
+.band{padding:clamp(72px,10vw,140px) 0}
+.sec-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:clamp(36px,5vw,64px)}
+.sec-head h2{font-size:clamp(40px,5.6vw,80px);margin:0;max-width:12ch}
+.sec-head p{max-width:380px;margin:0;color:var(--muted)}
+
+/* ---------- Featured drinks ---------- */
+.feat{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(14px,2vw,28px);align-items:start}
+.drink{position:relative;perspective:900px}
+.drink:nth-child(2){margin-top:72px}.drink:nth-child(3){margin-top:24px}.drink:nth-child(4){margin-top:110px}
+.drink-card{transform-style:preserve-3d;will-change:transform}
+.plate{position:relative;aspect-ratio:3/4;border-radius:999px 999px var(--r-md) var(--r-md);overflow:hidden;background:var(--c,var(--pist))}
+.plate img{width:100%;height:100%;object-fit:cover;transition:transform 1.1s var(--ease)}
+.drink:hover .plate img{transform:scale(1.06)}
+.plate .tag{position:absolute;left:14px;top:auto;bottom:14px;background:var(--ivory);color:var(--ink);font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px}
+.drink h3{font-family:"Gloock",serif;font-weight:400;font-size:clamp(24px,2.2vw,32px);line-height:1.05;margin:18px 0 6px}
+.drink p{margin:0;color:var(--muted);font-size:15px}
+.drink .row{display:flex;align-items:center;justify-content:space-between;margin-top:14px}
+.price{font-weight:700;white-space:nowrap}
+.add{width:44px;height:44px;border-radius:50%;border:0;background:var(--ink);color:var(--ivory);display:grid;place-items:center;transition:transform .3s var(--ease),background-color .3s}
+.add:hover{background:var(--tang);transform:rotate(90deg)}
+.add.done{background:var(--tang)}
+@media (max-width:1000px){.feat{grid-template-columns:repeat(2,minmax(0,1fr))}.drink:nth-child(n){margin-top:0}.drink:nth-child(even){margin-top:48px}}
+@media (max-width:520px){.feat{gap:14px}.drink h3{font-size:22px}.drink p{font-size:14px}}
+
+/* ---------- Story ---------- */
+.story{background:var(--ivory-2)}
+.story-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(28px,5vw,80px);align-items:center}
+.statement{font-size:clamp(32px,3.9vw,58px);line-height:1.08;margin:0}
+.statement .w{display:inline-block}
+.story-imgs{position:relative;aspect-ratio:4/5}
+.story-imgs figure{position:absolute;margin:0;overflow:hidden;border-radius:var(--r-lg)}
+.story-imgs .a{inset:0 22% 18% 0}
+.story-imgs .b{inset:46% 0 0 40%;border:8px solid var(--ivory-2);border-radius:999px 999px var(--r-lg) var(--r-lg)}
+.story-imgs img{width:100%;height:118%;object-fit:cover}
+.pillars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,3vw,40px);margin-top:clamp(48px,6vw,88px);padding-top:32px;border-top:1px solid var(--line)}
+.pillars h3{font-family:"Gloock",serif;font-weight:400;font-size:26px;margin:0 0 8px;line-height:1.1}
+.pillars p{margin:0;color:var(--muted);font-size:16px}
+@media (max-width:860px){.story-grid{grid-template-columns:1fr}.story-imgs{max-width:520px}.pillars{grid-template-columns:1fr}}
+
+/* ---------- Signature (horizontal) ---------- */
+.sig{background:var(--forest);color:var(--ivory);overflow:hidden}
+.sig-head{padding-top:clamp(72px,9vw,120px)}
+.sig-head .sec-head p{color:rgba(245,240,228,.7)}
+.sig-track{display:flex;gap:clamp(18px,3vw,40px);padding:0 var(--gut) clamp(72px,9vw,120px);width:max-content}
+.sig-card{width:min(78vw,1040px);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(18px,3vw,48px);align-items:center;background:var(--forest-2);border-radius:var(--r-lg);padding:clamp(18px,2.4vw,32px)}
+.sig-card .ph{aspect-ratio:4/5;border-radius:var(--r-md);overflow:hidden;background:#0a2219}
+.sig-card .ph img{width:115%;max-width:none;height:100%;object-fit:cover}
+.sig-card .n{font-size:15px;color:var(--pist);font-weight:600}
+.sig-card h3{font-family:"Gloock",serif;font-weight:400;font-size:clamp(44px,6vw,96px);line-height:.94;letter-spacing:-.02em;margin:10px 0 18px}
+.sig-card p{color:rgba(245,240,228,.78);margin:0 0 22px;max-width:40ch}
+.notes{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 26px;padding:0;list-style:none}
+.notes li{border:1px solid rgba(207,227,168,.45);color:var(--pist);border-radius:999px;padding:6px 14px;font-size:14px}
+.sig-buy{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.sig-buy .price{font-size:22px}
+.sig-progress{position:absolute;left:var(--gut);right:var(--gut);bottom:40px;height:2px;background:rgba(245,240,228,.15);border-radius:2px;overflow:hidden}
+.sig-progress i{display:block;height:100%;width:100%;background:var(--pist);transform-origin:left;transform:scaleX(0)}
+@media (max-width:1023px){
+  .sig-track{width:auto;flex-direction:column}
+  .sig-card{width:auto}
+  .sig-progress{display:none}
+}
+@media (max-width:700px){.sig-card{grid-template-columns:1fr}.sig-card .ph{aspect-ratio:4/3.4}}
+
+/* ---------- Menu ---------- */
+.menu-wrap{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(24px,5vw,80px);align-items:start}
+.menu-visual{position:sticky;top:110px;aspect-ratio:4/5;border-radius:999px 999px var(--r-lg) var(--r-lg);overflow:hidden;background:var(--pist)}
+.menu-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s var(--ease),transform 1.2s var(--ease);transform:scale(1.08)}
+.menu-visual img.on{opacity:1;transform:none}
+.tabs{display:flex;gap:6px;margin-bottom:28px;padding:6px;background:var(--ivory-2);border-radius:999px;width:max-content;max-width:100%;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none}
+.tab{border:0;background:transparent;min-height:44px;padding:0 18px;border-radius:999px;font-weight:600;font-size:15px;color:var(--muted);transition:background-color .3s,color .3s}
+.tab[aria-selected="true"]{background:var(--forest);color:var(--ivory)}
+.menu-list{list-style:none;margin:0;padding:0}
+.menu-list li{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:6px 18px;align-items:center;padding:20px 0;border-bottom:1px solid var(--line)}
+.menu-list h3{margin:0;font-family:"Gloock",serif;font-weight:400;font-size:clamp(22px,2vw,28px);line-height:1.1}
+.menu-list p{grid-column:1;margin:0;color:var(--muted);font-size:15px}
+.menu-list .price{grid-row:1/3;grid-column:2;align-self:center}
+.menu-list .add{grid-row:1/3;grid-column:3}
+.menu-list .new{display:inline-block;margin-left:8px;vertical-align:middle;font-family:"Figtree";font-size:12px;font-weight:700;background:var(--tang);color:#fff;padding:3px 8px;border-radius:999px}
+@media (max-width:860px){.menu-wrap{grid-template-columns:1fr}.menu-visual{position:relative;top:0;aspect-ratio:16/11;border-radius:var(--r-lg)}}
+
+/* ---------- Lifestyle ---------- */
+.life{background:var(--pist)}
+.life-grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));grid-auto-rows:clamp(70px,7vw,110px);gap:clamp(10px,1.4vw,18px)}
+.life-grid figure{margin:0;position:relative;overflow:hidden;border-radius:var(--r-md);background:var(--pist-2)}
+.life-grid img{width:100%;height:100%;object-fit:cover}
+.life-grid figcaption{position:absolute;left:12px;bottom:12px;background:var(--ivory);color:var(--ink);padding:6px 12px;border-radius:999px;font-size:13px;font-weight:600}
+.g1{grid-column:1/6;grid-row:1/6}.g2{grid-column:6/9;grid-row:1/4}.g3{grid-column:9/13;grid-row:1/5}.g4{grid-column:6/9;grid-row:4/7}.g5{grid-column:9/13;grid-row:5/7}
+.life-quote{grid-column:1/6;grid-row:6/7;display:flex;align-items:center}
+.life-quote p{margin:0;font-family:"Gloock",serif;font-size:clamp(22px,2.2vw,30px);line-height:1.15}
+@media (max-width:760px){
+  .life-grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:auto}
+  .life-grid figure{aspect-ratio:4/5}
+  .g1{grid-column:1/3;aspect-ratio:4/3.4!important}.g2,.g3,.g4,.g5{grid-column:auto;grid-row:auto}
+  .g1,.g2,.g3,.g4,.g5{grid-row:auto}
+  .life-quote{grid-column:1/3;grid-row:auto;padding:8px 0}
+}
+
+/* ---------- Promo: limited edition ---------- */
+.promo-sec{background:var(--berry);color:var(--berry-ink);overflow:hidden}
+.promo-big span,.promo-track span{flex:none}
+.promo-big{font-family:"Gloock",serif;font-size:clamp(72px,15vw,240px);line-height:.85;letter-spacing:-.03em;white-space:nowrap;display:flex;gap:.3em;will-change:transform;margin:0 0 clamp(28px,4vw,56px)}
+.promo-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,80px);align-items:center}
+.promo-ph{aspect-ratio:1;border-radius:50%;overflow:hidden;max-width:520px;width:100%;justify-self:center;box-shadow:0 30px 60px -30px rgba(91,26,43,.6)}
+.promo-ph img{width:100%;height:100%;object-fit:cover}
+.promo-grid h2{font-size:clamp(36px,4.4vw,64px);margin:0 0 16px}
+.promo-grid p{margin:0 0 26px;max-width:46ch}
+.countdown{display:flex;gap:10px;margin:0 0 30px;flex-wrap:wrap}
+.countdown div{background:rgba(255,255,255,.55);border-radius:16px;padding:12px 14px;min-width:78px;text-align:center}
+.countdown b{display:block;font-family:"Gloock",serif;font-weight:400;font-size:34px;line-height:1;font-variant-numeric:tabular-nums}
+.countdown span{font-size:13px}
+.promo-sec .btn{--bg:var(--berry-ink)}
+@media (max-width:860px){.promo-grid{grid-template-columns:1fr}.promo-ph{max-width:360px}}
+
+/* ---------- Locations ---------- */
+.loc-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:clamp(24px,4vw,56px);align-items:stretch}
+.stores{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.store{border:1.5px solid var(--line);border-radius:var(--r-md);padding:20px 22px;cursor:pointer;transition:border-color .3s,background-color .3s}
+.store[aria-selected="true"]{border-color:var(--forest);background:#fff}
+.store h3 button:focus-visible{outline:3px solid var(--tang);outline-offset:3px;border-radius:6px}
+.store h3{margin:0 0 4px;font-family:"Gloock",serif;font-weight:400;font-size:26px}
+.store p{margin:0;color:var(--muted);font-size:15px}
+.store .meta{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:12px;align-items:center}
+.status{font-size:13px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--pist);color:var(--forest)}
+.status.closed{background:var(--ivory-2);color:var(--muted)}
+.store a{font-weight:600;font-size:15px}
+.map{position:relative;border-radius:var(--r-lg);overflow:hidden;background:#dfe9cf;min-height:420px}
+.map svg{position:absolute;inset:0;width:100%;height:100%}
+.pin{cursor:pointer}
+.pin circle.halo{transform-origin:center;transform-box:fill-box}
+.demo-note{margin-top:16px;font-size:14px;color:var(--muted)}
+@media (max-width:860px){.loc-grid{grid-template-columns:1fr}.map{min-height:320px}}
+
+/* ---------- Social ---------- */
+.social{background:var(--forest);color:var(--ivory)}
+.social .sec-head p{color:rgba(245,240,228,.7)}
+.insta{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px}
+.insta a{position:relative;aspect-ratio:1;border-radius:16px;overflow:hidden;display:block}
+.insta a:nth-child(odd){transform:translateY(18px)}
+.insta img{width:100%;height:100%;object-fit:cover;transition:transform .9s var(--ease),filter .4s}
+.insta a::after{content:"";position:absolute;inset:0;background:var(--forest);opacity:0;transition:opacity .35s}
+.insta a:hover img{transform:scale(1.08)}
+.insta a:hover::after{opacity:.25}
+@media (max-width:760px){.insta{grid-template-columns:repeat(3,minmax(0,1fr))}.insta a:nth-child(odd){transform:none}}
+
+/* ---------- Footer ---------- */
+footer{background:var(--forest-2);color:var(--ivory);padding:clamp(64px,8vw,104px) 0 32px}
+.f-grid{display:grid;grid-template-columns:minmax(0,1.4fr) repeat(3,minmax(0,1fr));gap:36px}
+.f-grid h4{margin:0 0 14px;font-size:14px;color:var(--pist);font-weight:600}
+.f-grid ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.f-grid a,.f-grid button.link{color:rgba(245,240,228,.82);text-decoration:none;background:none;border:0;padding:0;font-size:16px;text-align:left}
+.f-grid a:hover,.f-grid button.link:hover{color:var(--ivory)}
+.news{display:flex;gap:8px;margin-top:18px;flex-wrap:wrap}
+.news input{flex:1 1 220px;min-height:52px;border-radius:999px;border:1.5px solid rgba(245,240,228,.3);background:transparent;color:var(--ivory);padding:0 20px;font-size:16px}
+.news input::placeholder{color:rgba(245,240,228,.5)}
+.news input:focus{outline:none;border-color:var(--pist)}
+.news-msg{min-height:22px;margin:10px 0 0;font-size:14px;color:var(--pist)}
+.f-big{font-family:"Gloock",serif;font-size:clamp(90px,22vw,340px);line-height:.8;letter-spacing:-.04em;margin:clamp(48px,7vw,96px) 0 20px;color:var(--forest)}
+.f-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:14px;color:rgba(245,240,228,.6);border-top:1px solid rgba(245,240,228,.14);padding-top:22px}
+@media (max-width:860px){.f-grid{grid-template-columns:1fr 1fr}.f-brand{grid-column:1/3}}
+@media (max-width:480px){.f-grid{grid-template-columns:1fr}.f-brand{grid-column:auto}}
+.f-grid li{overflow-wrap:anywhere}
+
+/* ---------- Bag drawer + dialog ---------- */
+.scrim{position:fixed;inset:0;z-index:70;background:rgba(13,43,31,.45);opacity:0;visibility:hidden;transition:opacity .35s,visibility 0s .35s}
+.scrim.on{opacity:1;visibility:visible;transition:opacity .35s}
+.drawer{position:fixed;z-index:71;top:0;right:0;height:100%;width:min(440px,100%);background:var(--ivory);display:flex;flex-direction:column;transform:translateX(102%);transition:transform .55s var(--ease)}
+.drawer.on{transform:none}
+.drawer header{display:flex;justify-content:space-between;align-items:center;padding:22px 24px;border-bottom:1px solid var(--line)}
+.drawer h2{font-family:"Gloock",serif;font-weight:400;font-size:32px;margin:0}
+.x{width:44px;height:44px;border-radius:50%;border:0;background:var(--ivory-2);display:grid;place-items:center}
+.bag-list{list-style:none;margin:0;padding:8px 24px;overflow:auto;flex:1}
+.bag-list li{display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:14px;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+.bag-list img{width:56px;height:56px;border-radius:14px;object-fit:cover}
+.bag-list h3{margin:0;font-size:16px;font-weight:600}
+.qty{display:inline-flex;align-items:center;gap:6px;margin-top:6px}
+.qty button{width:32px;height:32px;border-radius:50%;border:1.5px solid var(--line);background:transparent;line-height:1}
+.empty{padding:40px 0;color:var(--muted);text-align:center}
+.drawer footer{background:none;color:var(--ink);padding:20px 24px 24px;border-top:1px solid var(--line)}
+.total{display:flex;justify-content:space-between;font-weight:700;font-size:18px;margin-bottom:14px}
+.drawer .btn{width:100%;justify-content:center}
+.checkout-msg{font-size:14px;color:var(--muted);margin:12px 0 0;min-height:20px}
+dialog{border:0;border-radius:var(--r-lg);padding:28px;max-width:440px;width:calc(100% - 32px);background:var(--ivory);color:var(--ink)}
+dialog::backdrop{background:rgba(13,43,31,.5)}
+dialog h2{font-family:"Gloock",serif;font-weight:400;margin:0 0 10px;font-size:30px}
+.toast{position:fixed;left:50%;bottom:24px;z-index:80;transform:translate(-50%,140%);background:var(--ink);color:var(--ivory);padding:14px 20px;border-radius:999px;font-weight:600;font-size:15px;transition:transform .45s var(--ease);display:flex;gap:12px;align-items:center;max-width:calc(100% - 32px)}
+.toast.on{transform:translate(-50%,0)}
+.toast button{background:none;border:0;color:var(--pist);font-weight:700;text-decoration:underline}
+
+/* ---------- Loader ---------- */
+.loader{position:fixed;inset:0;z-index:90;background:var(--forest);display:grid;place-items:center;color:var(--ivory)}
+.loader .logo{font-size:56px}
+.loader .logo svg{width:52px;height:52px}
+html.no-loader .loader{display:none}
+
+/* ---------- Reveal defaults (JS adds motion; without JS everything is visible) ---------- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ICE CUBE SYMBOL reused across the page -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="iceg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset=".55" stop-color="#e6f1ea" stop-opacity=".55"/><stop offset="1" stop-color="#cfe3a8" stop-opacity=".35"/></linearGradient>
+    <symbol id="ice" viewBox="0 0 100 100">
+      <rect x="10" y="10" width="80" height="80" rx="20" fill="url(#iceg)" stroke="#fff" stroke-opacity=".75" stroke-width="2"/>
+      <path d="M26 30 Q38 22 52 26" stroke="#fff" stroke-width="6" stroke-linecap="round" fill="none" opacity=".9"/>
+      <path d="M70 66 Q74 74 66 80" stroke="#fff" stroke-width="3" stroke-linecap="round" fill="none" opacity=".6"/>
+    </symbol>
+    <symbol id="mark" viewBox="0 0 32 32">
+      <rect x="5" y="5" width="22" height="22" rx="7" fill="currentColor" transform="rotate(-12 16 16)"/>
+      <path d="M11 12.5q3-2.2 6.4-.2" stroke="var(--mark-hi,#cfe3a8)" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<noscript><style>.loader{display:none}</style></noscript>
+<div class="loader" aria-hidden="true">
+  <div class="logo"><svg style="color:#cfe3a8;--mark-hi:#133a2b"><use href="#mark"/></svg><span>kōri</span></div>
+</div>
+
+<!-- PROMO BAR (dynamic promotional banner) -->
+<div class="promo" role="region" aria-label="Announcements">
+  <div class="promo-track">
+    <span><i></i>Strawberry Cloud is back for 30 days</span>
+    <span><i></i>Free oat or coconut milk on every drink</span>
+    <span><i></i>Order ahead, skip the line</span>
+    <span><i></i>New in Pinheiros: our biggest bar yet</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a class="logo" href="#top" data-link aria-label="Kōri, home"><svg style="color:currentColor"><use href="#mark"/></svg><span>kōri</span></a>
+    <ul class="nav-links">
+      <li><a href="#menu" data-link>Menu</a></li>
+      <li><a href="#story" data-link>Our story</a></li>
+      <li><a href="#locations" data-link>Locations</a></li>
+      <li><a href="#contact" data-link>Contact</a></li>
+    </ul>
+    <div class="nav-cta">
+      <button class="bag-btn" type="button" data-open-bag aria-label="Open bag, 0 items"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8h12l-1 12H7L6 8Z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="bag-count">0</span></button>
+      <a class="btn small" href="#menu" data-link data-magnetic>Order now</a>
+      <button class="burger" type="button" aria-expanded="false" aria-controls="mmenu" aria-label="Open menu"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h16M4 16h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<div class="mmenu" id="mmenu" role="dialog" aria-modal="true" aria-label="Menu">
+  <div class="mmenu-top">
+    <span class="logo"><svg style="color:#cfe3a8;--mark-hi:#133a2b"><use href="#mark"/></svg><span>kōri</span></span>
+    <button class="x" type="button" data-close-menu aria-label="Close menu" style="background:rgba(255,255,255,.12);color:#f5f0e4"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+  </div>
+  <nav aria-label="Mobile">
+    <a href="#menu" data-link>Menu</a>
+    <a href="#story" data-link>Our story</a>
+    <a href="#locations" data-link>Locations</a>
+    <a href="#contact" data-link>Contact</a>
+  </nav>
+  <a class="btn" href="#menu" data-link>Order now</a>
+</div>
+
+<main id="main">
+
+<!-- ======================= HERO ======================= -->
+<section class="hero" id="top" aria-labelledby="hero-title">
+  <svg class="cube" data-depth="1.6" style="width:84px;left:6%;top:30%" aria-hidden="true"><use href="#ice"/></svg>
+  <svg class="cube" data-depth="-1" style="width:56px;right:9%;bottom:24%" aria-hidden="true"><use href="#ice"/></svg>
+  <svg class="cube" data-depth="2.2" style="width:38px;left:44%;top:16%" aria-hidden="true"><use href="#ice"/></svg>
+  <div class="wrap">
+    <div class="hero-grid">
+      <h1 id="hero-title" class="sr">Ice cold. Warm welcome.</h1>
+      <span class="h-line h-1" aria-hidden="true"><span>Ice cold.</span></span>
+      <span class="h-line h-2" aria-hidden="true"><span>Warm welcome.</span></span>
+      <div class="arch-wrap">
+      <div class="arch">
+        <img data-u="1676506739319-70bff65bfc48" data-w="900" alt="Coffee poured over clear ice in a tall glass" fetchpriority="high" loading="eager" sizes="(max-width:900px) 78vw, 30vw" />
+      </div>
+        <div class="bubble"><img data-u="1749280447307-31a68eb38673" data-w="400" alt="Iced matcha latte with a straw" sizes="170px" /></div>
+        <a class="badge" href="#limited" data-link aria-label="New: Strawberry Cloud, limited edition">
+          <svg viewBox="0 0 120 120" aria-hidden="true"><defs><path id="circ" d="M60 60 m-46 0 a46 46 0 1 1 92 0 a46 46 0 1 1 -92 0"/></defs><text font-family="Figtree" font-size="10.5" font-weight="700" letter-spacing="2.2" fill="#fff"><textPath href="#circ">LIMITED EDITION • 30 DAYS ONLY •</textPath></text></svg>
+          <b>Strawberry<br/>Cloud</b>
+        </a>
+      </div>
+      <p class="hero-copy">Iced lattes, ceremonial matcha, real-cream shakes and fruit refreshers, poured over ice we freeze clear for 48 hours. Built to be photographed. Made to be finished.</p>
+      <div class="hero-actions">
+        <a class="btn" href="#menu" data-link data-magnetic>Order now
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        <a class="btn ghost" href="#featured" data-link data-magnetic>See this week's drinks</a>
+      </div>
+    </div>
+    <div class="hero-foot">
+      <span><strong>12 signatures</strong>, poured fresh, never from a batch</span>
+      <span>Oat, coconut or whole milk at no extra cost</span>
+      <span>Pickup in 4 minutes on average</span>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= FEATURED ======================= -->
+<section class="band" id="featured" aria-labelledby="feat-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="display reveal-words" id="feat-title">On the counter this week</h2>
+      <p>The four drinks our regulars order most. Tap the plus to add one to your bag; we will have it ready when you arrive.</p>
+    </div>
+    <div class="feat">
+      <article class="drink" style="--c:#cfe3a8" data-id="kori-latte">
+        <div class="drink-card">
+          <div class="plate"><img data-u="1767471716700-2b3aa77b1ab6" data-w="700" alt="Hand holding an iced latte topped with cream" sizes="(max-width:1000px) 46vw, 24vw" /><span class="tag">Best seller</span></div>
+          <h3>Kōri Latte</h3>
+          <p>Double espresso, cold milk, a cap of sweet cream.</p>
+          <div class="row"><span class="price">R$ 22</span><button class="add" type="button" aria-label="Add Kōri Latte to bag" data-add="kori-latte"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button></div>
+        </div>
+      </article>
+      <article class="drink" style="--c:#f5dc8a" data-id="matcha-cloud">
+        <div class="drink-card">
+          <div class="plate"><img data-u="1659865659288-a3d10b9edcdd" data-w="700" alt="Iced matcha drinks on a café table" sizes="(max-width:1000px) 46vw, 24vw" /><span class="tag">Ceremonial grade</span></div>
+          <h3>Matcha Cloud</h3>
+          <p>Uji matcha whisked to order over oat milk and vanilla.</p>
+          <div class="row"><span class="price">R$ 24</span><button class="add" type="button" aria-label="Add Matcha Cloud to bag" data-add="matcha-cloud"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button></div>
+        </div>
+      </article>
+      <article class="drink" style="--c:#f4b6c4" data-id="berry-fizz">
+        <div class="drink-card">
+          <div class="plate"><img data-u="1497534446932-c925b458314e" data-w="700" alt="Three glasses of sparkling strawberry drink with mint" sizes="(max-width:1000px) 46vw, 24vw" /><span class="tag">Caffeine-free</span></div>
+          <h3>Berry Fizz</h3>
+          <p>Strawberry, lime and mint over sparkling water.</p>
+          <div class="row"><span class="price">R$ 19</span><button class="add" type="button" aria-label="Add Berry Fizz to bag" data-add="berry-fizz"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button></div>
+        </div>
+      </article>
+      <article class="drink" style="--c:#ffc7a6" data-id="cocoa-shake">
+        <div class="drink-card">
+          <div class="plate"><img data-u="1648775948447-78c34dd56090" data-w="700" alt="Hand holding a shake topped with whipped cream and chocolate" sizes="(max-width:1000px) 46vw, 24vw" /><span class="tag">Real cream</span></div>
+          <h3>Cocoa Shake</h3>
+          <p>70% cocoa, vanilla bean ice cream, whipped cream.</p>
+          <div class="row"><span class="price">R$ 26</span><button class="add" type="button" aria-label="Add Cocoa Shake to bag" data-add="cocoa-shake"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= STORY ======================= -->
+<section class="band story" id="story" aria-labelledby="story-title">
+  <div class="wrap">
+    <h2 class="sr" id="story-title">Our story</h2>
+    <div class="story-grid">
+      <p class="display statement">We started with one question: why does the best part of an iced drink melt first? So we froze our own ice, slowly, until it came out clear and hard enough to last the whole walk home. Everything else followed from there.</p>
+      <div class="story-imgs" aria-hidden="false">
+        <figure class="a"><img class="par" data-u="1569409760450-5b27bb03fa06" data-w="800" alt="Barista pouring milk into a green cup" sizes="(max-width:860px) 70vw, 32vw" /></figure>
+        <figure class="b"><img class="par" data-u="1596151163116-98a5033814c2" data-w="600" alt="Glass of cold milk with ice" sizes="(max-width:860px) 50vw, 22vw" /></figure>
+      </div>
+    </div>
+    <div class="pillars">
+      <div><h3>Clear ice, always</h3><p>Frozen for 48 hours in insulated molds, so it melts slower and never waters your drink down.</p></div>
+      <div><h3>Ingredients you can name</h3><p>Single-farm matcha, espresso roasted weekly, fruit we cut every morning. No powders, no syrups from a pump.</p></div>
+      <div><h3>Made to linger</h3><p>Our bars are built for staying: long tables, good light and music turned to conversation level.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= SIGNATURE (horizontal) ======================= -->
+<section class="sig" id="signature" aria-labelledby="sig-title">
+  <div class="wrap sig-head">
+    <div class="sec-head">
+      <h2 class="display reveal-words" id="sig-title">The signatures</h2>
+      <p>Three drinks we would put our name on. They have been on the menu since day one and they are not going anywhere.</p>
+    </div>
+  </div>
+  <div class="sig-pin">
+    <div class="sig-track">
+      <article class="sig-card">
+        <div class="ph"><img class="sig-img" data-u="1592663527359-cf6642f54cff" data-w="900" alt="Cream being poured into an iced coffee" sizes="(max-width:700px) 90vw, 40vw" /></div>
+        <div>
+          <span class="n">Signature one</span>
+          <h3>The Cloud</h3>
+          <p>Cold brew steeped for 18 hours, poured over clear ice and finished with a slow ribbon of salted cream that sinks as you sip.</p>
+          <ul class="notes"><li>Cold brew</li><li>Salted cream</li><li>Brown sugar</li></ul>
+          <div class="sig-buy"><span class="price">R$ 23</span><button class="btn light small" type="button" data-add="the-cloud" data-magnetic>Add to bag</button></div>
+        </div>
+      </article>
+      <article class="sig-card">
+        <div class="ph"><img class="sig-img" data-u="1574365377100-2425f10d20bd" data-w="900" alt="Two plant-based lattes, one matcha and one golden" sizes="(max-width:700px) 90vw, 40vw" /></div>
+        <div>
+          <span class="n">Signature two</span>
+          <h3>Golden Hour</h3>
+          <p>Ceremonial matcha layered over turmeric, ginger and coconut milk. Earthy, bright, and better than any alarm clock.</p>
+          <ul class="notes"><li>Matcha</li><li>Turmeric</li><li>Coconut milk</li></ul>
+          <div class="sig-buy"><span class="price">R$ 25</span><button class="btn light small" type="button" data-add="golden-hour" data-magnetic>Add to bag</button></div>
+        </div>
+      </article>
+      <article class="sig-card">
+        <div class="ph"><img class="sig-img" data-u="1698413463628-b6d06fb71c9e" data-w="900" alt="Thick milkshakes in to-go cups" sizes="(max-width:700px) 90vw, 40vw" /></div>
+        <div>
+          <span class="n">Signature three</span>
+          <h3>Burnt Honey Shake</h3>
+          <p>Wildflower honey caramelised until it just smokes, blended with vanilla ice cream and a pinch of sea salt.</p>
+          <ul class="notes"><li>Burnt honey</li><li>Vanilla</li><li>Sea salt</li></ul>
+          <div class="sig-buy"><span class="price">R$ 27</span><button class="btn light small" type="button" data-add="burnt-honey" data-magnetic>Add to bag</button></div>
+        </div>
+      </article>
+    </div>
+  </div>
+  <div class="sig-progress" aria-hidden="true"><i></i></div>
+</section>
+
+<!-- ======================= MENU ======================= -->
+<section class="band" id="menu" aria-labelledby="menu-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="display reveal-words" id="menu-title">The menu</h2>
+      <p>Every drink comes in regular or large, with oat, coconut or whole milk at no extra cost.</p>
+    </div>
+    <div class="menu-wrap">
+      <div class="menu-visual" aria-hidden="true">
+        <img data-cat="coffee" class="on" data-u="1750520335073-2535aa280946" data-w="900" alt="" sizes="(max-width:860px) 92vw, 40vw" />
+        <img data-cat="matcha" data-u="1749280447307-31a68eb38673" data-w="900" alt="" sizes="(max-width:860px) 92vw, 40vw" />
+        <img data-cat="shakes" data-u="1648775948447-78c34dd56090" data-w="900" alt="" sizes="(max-width:860px) 92vw, 40vw" />
+        <img data-cat="refresh" data-u="1717250180315-81b49709a74e" data-w="900" alt="" sizes="(max-width:860px) 92vw, 40vw" />
+      </div>
+      <div>
+        <div class="tabs" role="tablist" aria-label="Menu categories">
+          <button class="tab" role="tab" id="t-coffee" aria-controls="menu-panel" aria-selected="true" data-cat="coffee">Iced coffee</button>
+          <button class="tab" role="tab" id="t-matcha" aria-controls="menu-panel" aria-selected="false" tabindex="-1" data-cat="matcha">Matcha</button>
+          <button class="tab" role="tab" id="t-shakes" aria-controls="menu-panel" aria-selected="false" tabindex="-1" data-cat="shakes">Shakes</button>
+          <button class="tab" role="tab" id="t-refresh" aria-controls="menu-panel" aria-selected="false" tabindex="-1" data-cat="refresh">Refreshers</button>
+        </div>
+        <div id="menu-panel" role="tabpanel" aria-labelledby="t-coffee">
+          <ul class="menu-list"></ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= LIFESTYLE ======================= -->
+<section class="band life" id="life" aria-labelledby="life-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="display reveal-words" id="life-title">Kōri hours</h2>
+      <p>The table by the window at 4pm. The walk back to the office. The second round with friends. That is where our drinks actually live.</p>
+    </div>
+    <div class="life-grid">
+      <figure class="g1 rv"><img data-u="1495474472287-4d71bcdd2085" data-w="1100" alt="Three friends raising iced drinks together" sizes="(max-width:760px) 92vw, 42vw" /><figcaption>The second round</figcaption></figure>
+      <figure class="g2 rv"><img data-u="1755463695658-42ed0e49f113" data-w="600" alt="Young couple holding drinks outdoors" sizes="(max-width:760px) 46vw, 24vw" /></figure>
+      <figure class="g3 rv"><img data-u="1764391836704-8053c8a6e209" data-w="800" alt="People talking at a bright café counter" sizes="(max-width:760px) 46vw, 32vw" /><figcaption>Long tables, good light</figcaption></figure>
+      <figure class="g4 rv"><img data-u="1758525225856-d837707cb13f" data-w="600" alt="Two friends laughing over coffee at an outdoor table" sizes="(max-width:760px) 46vw, 24vw" /></figure>
+      <figure class="g5 rv"><img data-u="1516197370049-569c4eaba1d6" data-w="800" alt="Customers chatting across a café counter" sizes="(max-width:760px) 46vw, 32vw" /></figure>
+      <div class="life-quote"><p>"Come for the drink. Stay because nobody is rushing you out."</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= PROMO / LIMITED ======================= -->
+<section class="band promo-sec" id="limited" aria-labelledby="limited-title">
+  <div class="promo-big" aria-hidden="true"><span>Strawberry Cloud</span><span>Strawberry Cloud</span><span>Strawberry Cloud</span></div>
+  <div class="wrap">
+    <div class="promo-grid">
+      <div class="promo-ph"><img data-u="1563227812-0ea4c22e6cc8" data-w="900" alt="Two glasses of a red strawberry drink" sizes="(max-width:860px) 80vw, 40vw" /></div>
+      <div>
+        <h2 class="display" id="limited-title">Back for thirty days. Then gone until next summer.</h2>
+        <p>Strawberries macerated overnight with a little vanilla, cold milk, and a cloud of whipped cream on top. Our most requested drink, every single year.</p>
+        <div class="countdown" aria-live="off" aria-label="Time left">
+          <div><b data-cd="d">00</b><span>days</span></div>
+          <div><b data-cd="h">00</b><span>hours</span></div>
+          <div><b data-cd="m">00</b><span>minutes</span></div>
+          <div><b data-cd="s">00</b><span>seconds</span></div>
+        </div>
+        <button class="btn" type="button" data-add="strawberry-cloud" data-magnetic>Add to bag for R$ 26</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= LOCATIONS ======================= -->
+<section class="band" id="locations" aria-labelledby="loc-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="display reveal-words" id="loc-title">Find a Kōri bar</h2>
+      <p>Three bars in São Paulo, each with its own playlist and the same clear ice.</p>
+    </div>
+    <div class="loc-grid">
+      <ul class="stores" aria-label="Stores"></ul>
+      <div class="map" aria-label="Map of store locations" role="img">
+        <svg viewBox="0 0 600 460" preserveAspectRatio="xMidYMid slice">
+          <rect width="600" height="460" fill="#dfe9cf"/>
+          <path d="M-20 330 C 120 300, 200 380, 320 340 S 520 250, 640 290 L640 360 C 520 330, 430 420, 320 410 S 120 370, -20 400Z" fill="#bcd6e4" opacity=".85"/>
+          <g class="roads" fill="none" stroke="#f5f0e4" stroke-linecap="round">
+            <path d="M40 40 L560 120" stroke-width="14"/><path d="M90 450 L250 0" stroke-width="12"/><path d="M380 460 L470 0" stroke-width="12"/>
+            <path d="M0 210 C 160 190, 300 250, 600 200" stroke-width="10"/><path d="M150 0 C 210 140, 330 160, 600 70" stroke-width="7"/>
+            <path d="M0 120 L 300 300" stroke-width="7"/><path d="M520 460 L 300 300" stroke-width="7"/>
+          </g>
+          <g fill="#c7dcae"><rect x="270" y="40" width="80" height="56" rx="14"/><rect x="60" y="250" width="70" height="50" rx="14"/><rect x="430" y="150" width="90" height="40" rx="14"/></g>
+          <g class="pins"></g>
+        </svg>
+      </div>
+    </div>
+    <p class="demo-note">Demo locations for this concept. Replace names, addresses and hours with real store data before launch.</p>
+  </div>
+</section>
+
+<!-- ======================= SOCIAL ======================= -->
+<section class="band social" id="social" aria-labelledby="social-title">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2 class="display reveal-words" id="social-title">@kori.drinks</h2>
+      <p>Tag us and your photo might end up on our wall. Demo handle for this concept.</p>
+    </div>
+    <div class="insta">
+      <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Open Instagram"><img data-u="1594975631657-904804a44e4d" data-w="400" alt="Iced orange drink in a glass pitcher" sizes="(max-width:760px) 31vw, 16vw" /></a>
+      <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Open Instagram"><img data-u="1749280447307-31a68eb38673" data-w="400" alt="Iced matcha latte" sizes="(max-width:760px) 31vw, 16vw" /></a>
+      <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Open Instagram"><img data-u="1756158449200-678a8de156ac" data-w="400" alt="Café counter with pastries" sizes="(max-width:760px) 31vw, 16vw" /></a>
+      <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Open Instagram"><img data-u="1676506739319-70bff65bfc48" data-w="400" alt="Coffee poured over ice" sizes="(max-width:760px) 31vw, 16vw" /></a>
+      <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Open Instagram"><img data-u="1717250180315-81b49709a74e" data-w="400" alt="Citrus refresher with herbs" sizes="(max-width:760px) 31vw, 16vw" /></a>
+      <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Open Instagram"><img data-u="1592663527359-cf6642f54cff" data-w="400" alt="Cream poured into iced coffee" sizes="(max-width:760px) 31vw, 16vw" /></a>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ======================= FOOTER ======================= -->
+<footer id="contact">
+  <div class="wrap">
+    <div class="f-grid">
+      <div class="f-brand">
+        <a class="logo" href="#top" data-link><svg style="color:#cfe3a8;--mark-hi:#0d2b1f"><use href="#mark"/></svg><span>kōri</span></a>
+        <p style="max-width:34ch;color:rgba(245,240,228,.75)">One email a month: new drinks, limited editions and the occasional free one.</p>
+        <form class="news" novalidate>
+          <label class="sr" for="nl">Email address</label>
+          <input id="nl" type="email" placeholder="you@email.com" autocomplete="email" required />
+          <button class="btn" type="submit">Subscribe</button>
+        </form>
+        <p class="news-msg" role="status" aria-live="polite"></p>
+      </div>
+      <div><h4>Visit</h4><ul><li><a href="#menu" data-link>Menu</a></li><li><a href="#locations" data-link>Locations</a></li><li><a href="#limited" data-link>Limited edition</a></li><li><a href="#story" data-link>Our story</a></li></ul></div>
+      <div><h4>Contact</h4><ul><li>hello@kori.example</li><li>+55 11 0000-0000</li><li style="color:rgba(245,240,228,.55);font-size:14px">Demo contact details</li></ul></div>
+      <div><h4>Follow</h4><ul><li><a href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram</a></li><li><a href="https://www.tiktok.com/" target="_blank" rel="noopener">TikTok</a></li><li><button class="link" type="button" data-legal="privacy">Privacy</button></li><li><button class="link" type="button" data-legal="terms">Terms</button></li></ul></div>
+    </div>
+    <div class="f-big" aria-hidden="true">kōri</div>
+    <div class="f-bottom">
+      <span>© 2026 Kōri. Fictional brand, concept website.</span>
+      <span>Photos on Unsplash: Sarah Swainson, Gaia&amp;Co, Rob Wingate, Ryan Kwok, Whitney Wright, Israel Piña, SarahCreates, an_vision, tabitha turner, Bret Kavanaugh, Raman, Markus Winkler, Zayed Ahmed Zadu, Nathan Dumlao, Luiza Lubińska, Johan Mouchet, Vitaly Gariev, Toa Heftiba, Katherine Sousa, Victoria Shes, Babak Eshaghian.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Bag drawer -->
+<div class="scrim" data-close-bag></div>
+<aside class="drawer" id="bag" role="dialog" aria-modal="true" aria-labelledby="bag-title" aria-hidden="true">
+  <header><h2 id="bag-title">Your bag</h2><button class="x" type="button" data-close-bag aria-label="Close bag"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button></header>
+  <ul class="bag-list"></ul>
+  <footer>
+    <div class="total"><span>Total</span><span class="bag-total">R$ 0</span></div>
+    <button class="btn" type="button" data-checkout>Choose pickup bar</button>
+    <p class="checkout-msg" role="status" aria-live="polite"></p>
+  </footer>
+</aside>
+
+<dialog id="legal"><h2></h2><p></p><button class="btn small" type="button" data-close-legal>Close</button></dialog>
+<div class="toast" role="status" aria-live="polite"><span class="toast-text"></span><button type="button" data-open-bag>View bag</button></div>
+
+<script>
+{
+/* =====================================================================
+   DATA — products, menu, stores. Replace with real data / CMS later.
+   ===================================================================== */
+const U = (id, w) => `https://images.unsplash.com/photo-${id}?auto=format&fit=crop&w=${w}&q=80`;
+const PRODUCTS = {
+  "kori-latte":{name:"Kōri Latte",price:22,img:"1767471716700-2b3aa77b1ab6"},
+  "matcha-cloud":{name:"Matcha Cloud",price:24,img:"1659865659288-a3d10b9edcdd"},
+  "berry-fizz":{name:"Berry Fizz",price:19,img:"1497534446932-c925b458314e"},
+  "cocoa-shake":{name:"Cocoa Shake",price:26,img:"1648775948447-78c34dd56090"},
+  "the-cloud":{name:"The Cloud",price:23,img:"1592663527359-cf6642f54cff"},
+  "golden-hour":{name:"Golden Hour",price:25,img:"1574365377100-2425f10d20bd"},
+  "burnt-honey":{name:"Burnt Honey Shake",price:27,img:"1698413463628-b6d06fb71c9e"},
+  "strawberry-cloud":{name:"Strawberry Cloud",price:26,img:"1563227812-0ea4c22e6cc8"},
+  "espresso-tonic":{name:"Espresso Tonic",price:18,img:"1750520335073-2535aa280946"},
+  "vanilla-cold-foam":{name:"Vanilla Cold Foam",price:21,img:"1750520335073-2535aa280946"},
+  "dirty-horchata":{name:"Dirty Horchata",price:24,img:"1750520335073-2535aa280946"},
+  "matcha-tonic":{name:"Matcha Tonic",price:21,img:"1749280447307-31a68eb38673"},
+  "strawberry-matcha":{name:"Strawberry Matcha",price:26,img:"1749280447307-31a68eb38673"},
+  "pistachio-shake":{name:"Pistachio Shake",price:27,img:"1648775948447-78c34dd56090"},
+  "cookie-shake":{name:"Cookies & Cream",price:25,img:"1648775948447-78c34dd56090"},
+  "yuzu-mint":{name:"Yuzu Mint Refresher",price:18,img:"1717250180315-81b49709a74e"},
+  "orange-blossom":{name:"Orange Blossom Fizz",price:18,img:"1594975631657-904804a44e4d"}
+};
+const MENU = {
+  coffee:[["kori-latte","Double espresso, cold milk, sweet cream cap"],["the-cloud","Cold brew, salted cream, brown sugar"],["espresso-tonic","Espresso over tonic with an orange twist"],["vanilla-cold-foam","Cold brew under whipped vanilla foam"],["dirty-horchata","Rice and cinnamon milk with a shot of espresso",true]],
+  matcha:[["matcha-cloud","Uji matcha, oat milk, vanilla"],["golden-hour","Matcha over turmeric, ginger and coconut"],["matcha-tonic","Matcha over tonic and lime"],["strawberry-matcha","Strawberry purée, milk, matcha on top",true]],
+  shakes:[["cocoa-shake","70% cocoa, vanilla ice cream, whipped cream"],["burnt-honey","Caramelised honey, vanilla, sea salt"],["pistachio-shake","Roasted pistachio paste, vanilla, crushed nuts",true],["cookie-shake","Dark cookies blended with vanilla ice cream"]],
+  refresh:[["berry-fizz","Strawberry, lime, mint, sparkling water"],["yuzu-mint","Yuzu, cucumber, mint over ice"],["orange-blossom","Orange, orange blossom water, soda"]]
+};
+// Demo stores: hours are [open, close] per weekday Sun..Sat, in 24h local time.
+const STORES = [
+  {id:"pin",name:"Kōri Pinheiros",area:"Pinheiros, São Paulo",line:"Demo address on Rua dos Pinheiros",hours:[[9,20],[7,21],[7,21],[7,21],[7,21],[7,22],[8,22]],x:180,y:150,q:"Pinheiros, São Paulo"},
+  {id:"jar",name:"Kōri Jardins",area:"Jardins, São Paulo",line:"Demo address near Rua Oscar Freire",hours:[[10,19],[8,20],[8,20],[8,20],[8,20],[8,21],[9,21]],x:400,y:110,q:"Jardins, São Paulo"},
+  {id:"vm",name:"Kōri Vila Madalena",area:"Vila Madalena, São Paulo",line:"Demo address on Rua Aspicuelta",hours:[[11,22],[9,22],[9,22],[9,22],[9,23],[9,23],[10,23]],x:300,y:255,q:"Vila Madalena, São Paulo"}
+];
+
+/* =====================================================================
+   HELPERS
+   ===================================================================== */
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const money = (n) => "R$ " + n.toFixed(n % 1 ? 2 : 0).replace(".", ",");
+const esc = (s) => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const fine = matchMedia("(hover:hover) and (pointer:fine)").matches;
+const store = { get(k){ try { return sessionStorage.getItem(k); } catch { return null; } }, set(k,v){ try { sessionStorage.setItem(k,v); } catch {} } };
+
+/* Images: build responsive src/srcset from data-u (Unsplash photo id). Lazy by default. */
+$$("img[data-u]").forEach(img => {
+  const id = img.dataset.u, w = +img.dataset.w || 800;
+  img.srcset = [w * .5, w, w * 1.6, w * 2.2].map(x => `${U(id, Math.round(x))} ${Math.round(x)}w`).join(", ");
+  img.src = U(id, w);
+  if (!img.hasAttribute("loading")) img.loading = "lazy";
+  img.decoding = "async";
+});
+
+/* =====================================================================
+   MENU RENDER + TABS
+   ===================================================================== */
+const plusSvg = '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>';
+const list = $(".menu-list");
+const renderMenu = (cat) => {
+  list.innerHTML = MENU[cat].map(([id, desc, isNew]) => {
+    const p = PRODUCTS[id];
+    return `<li><h3>${esc(p.name)}${isNew ? '<span class="new">New</span>' : ""}</h3><p>${esc(desc)}</p><span class="price">${money(p.price)}</span><button class="add" type="button" data-add="${id}" aria-label="Add ${esc(p.name)} to bag">${plusSvg}</button></li>`;
+  }).join("");
+};
+renderMenu("coffee");
+const tabs = $$(".tab");
+const selectTab = (tab, focus) => {
+  const cat = tab.dataset.cat;
+  tabs.forEach(t => { const on = t === tab; t.setAttribute("aria-selected", on); t.tabIndex = on ? 0 : -1; });
+  $("#menu-panel").setAttribute("aria-labelledby", tab.id);
+  $$(".menu-visual img").forEach(i => i.classList.toggle("on", i.dataset.cat === cat));
+  if (focus) tab.focus();
+  if (window.gsap && !reduce) {
+    gsap.to(".menu-list li", { y: -12, opacity: 0, duration: .2, stagger: .03, onComplete: () => {
+      renderMenu(cat);
+      gsap.from(".menu-list li", { y: 18, opacity: 0, duration: .5, ease: "power3.out", stagger: .06 });
+    }});
+  } else renderMenu(cat);
+};
+tabs.forEach((t, i) => {
+  t.addEventListener("click", () => selectTab(t));
+  t.addEventListener("keydown", e => {
+    const d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
+    if (d) { e.preventDefault(); selectTab(tabs[(i + d + tabs.length) % tabs.length], true); }
+  });
+});
+
+/* =====================================================================
+   BAG (in-memory cart) + DRAWER + TOAST
+   ===================================================================== */
+const bag = new Map();
+const drawer = $("#bag"), scrim = $(".scrim"), toast = $(".toast");
+let lastFocus = null, toastTimer = 0;
+const renderBag = () => {
+  const items = [...bag.entries()];
+  const count = items.reduce((a, [, q]) => a + q, 0);
+  const total = items.reduce((a, [id, q]) => a + PRODUCTS[id].price * q, 0);
+  $(".bag-count").textContent = count;
+  $(".bag-btn").setAttribute("aria-label", `Open bag, ${count} item${count === 1 ? "" : "s"}`);
+  $(".bag-total").textContent = money(total);
+  $(".bag-list").innerHTML = items.length ? items.map(([id, q]) => {
+    const p = PRODUCTS[id];
+    return `<li><img src="${U(p.img, 160)}" alt=""/><div><h3>${esc(p.name)}</h3><div class="qty"><button type="button" data-dec="${id}" aria-label="Remove one ${esc(p.name)}">−</button><span aria-live="polite">${q}</span><button type="button" data-inc="${id}" aria-label="Add one ${esc(p.name)}">+</button></div></div><span class="price">${money(p.price * q)}</span></li>`;
+  }).join("") : '<li class="empty" style="display:block;border:0">Your bag is empty. Pick a drink from the menu.</li>';
+  $("[data-checkout]").disabled = !items.length;
+};
+const addToBag = (id, btn) => {
+  if (!PRODUCTS[id]) return;
+  bag.set(id, (bag.get(id) || 0) + 1);
+  renderBag();
+  toast.querySelector(".toast-text").textContent = `${PRODUCTS[id].name} added`;
+  toast.classList.add("on"); clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove("on"), 2600);
+  if (btn && btn.classList.contains("add")) { btn.classList.add("done"); setTimeout(() => btn.classList.remove("done"), 900); }
+  if (window.gsap && !reduce) gsap.fromTo(".bag-count", { scale: 1.8 }, { scale: 1, duration: .6, ease: "elastic.out(1,.4)" });
+};
+document.addEventListener("click", e => {
+  const add = e.target.closest("[data-add]"); if (add) return addToBag(add.dataset.add, add);
+  const inc = e.target.closest("[data-inc]"); if (inc) { bag.set(inc.dataset.inc, bag.get(inc.dataset.inc) + 1); return renderBag(); }
+  const dec = e.target.closest("[data-dec]"); if (dec) { const id = dec.dataset.dec, q = bag.get(id) - 1; q > 0 ? bag.set(id, q) : bag.delete(id); return renderBag(); }
+  if (e.target.closest("[data-open-bag]")) return openBag();
+  if (e.target.closest("[data-close-bag]")) return closeBag();
+});
+const openBag = () => {
+  lastFocus = document.activeElement; toast.classList.remove("on");
+  drawer.classList.add("on"); scrim.classList.add("on"); drawer.setAttribute("aria-hidden", "false");
+  lenis && lenis.stop(); $(".x", drawer).focus();
+};
+const closeBag = () => {
+  drawer.classList.remove("on"); scrim.classList.remove("on"); drawer.setAttribute("aria-hidden", "true");
+  lenis && lenis.start(); lastFocus && lastFocus.focus();
+};
+$("[data-checkout]").addEventListener("click", () => {
+  // Integration point: hand the bag to the real ordering system (Shopify, Square, iFood, own API).
+  $(".checkout-msg").textContent = "Demo checkout: connect your ordering system here to choose a bar and pay.";
+});
+renderBag();
+
+/* Mobile menu */
+const mm = $("#mmenu"), burger = $(".burger");
+const setMenu = (open) => {
+  mm.classList.toggle("open", open); burger.setAttribute("aria-expanded", open);
+  if (open) { lenis && lenis.stop(); $("[data-close-menu]").focus(); if (window.gsap && !reduce) gsap.from("#mmenu nav a, #mmenu .btn", { y: 40, opacity: 0, duration: .7, stagger: .06, delay: .2, ease: "power3.out" }); }
+  else { lenis && lenis.start(); burger.focus(); }
+};
+burger.addEventListener("click", () => setMenu(true));
+$("[data-close-menu]").addEventListener("click", () => setMenu(false));
+document.addEventListener("keydown", e => {
+  if (e.key !== "Escape") return;
+  if (mm.classList.contains("open")) setMenu(false);
+  if (drawer.classList.contains("on")) closeBag();
+});
+
+/* Legal dialog */
+const legal = $("#legal");
+const LEGAL = { privacy: ["Privacy", "Demo page. Add your privacy policy here before launch, including how newsletter emails and orders are stored."], terms: ["Terms", "Demo page. Add your terms of sale, refund policy and allergen information here before launch."] };
+$$("[data-legal]").forEach(b => b.addEventListener("click", () => { const [t, p] = LEGAL[b.dataset.legal]; legal.querySelector("h2").textContent = t; legal.querySelector("p").textContent = p; legal.showModal(); }));
+$("[data-close-legal]").addEventListener("click", () => legal.close());
+
+/* Newsletter */
+$(".news").addEventListener("submit", e => {
+  e.preventDefault();
+  const input = $("#nl"), msg = $(".news-msg");
+  if (!input.value || !input.checkValidity()) { msg.textContent = "Enter an email like you@email.com."; input.setAttribute("aria-invalid", "true"); input.focus(); return; }
+  input.removeAttribute("aria-invalid");
+  // Integration point: POST the address to your email tool (Mailchimp, Klaviyo, Resend…).
+  msg.textContent = "You're on the list. First email arrives with the next limited edition.";
+  e.target.reset();
+});
+
+/* =====================================================================
+   STORES + MAP
+   ===================================================================== */
+const now = new Date();
+const isOpen = (s) => { const [o, c] = s.hours[now.getDay()]; const h = now.getHours() + now.getMinutes() / 60; return h >= o && h < c; };
+const fmtH = (n) => `${String(n).padStart(2, "0")}:00`;
+$(".stores").innerHTML = STORES.map((s, i) => {
+  const [o, c] = s.hours[now.getDay()], open = isOpen(s);
+  return `<li class="store" aria-selected="${!i}" data-store="${s.id}">
+    <h3><button type="button" class="store-sel" style="all:unset;cursor:pointer" aria-label="Show ${esc(s.name)} on the map">${esc(s.name)}</button></h3><p>${esc(s.line)}</p><p>${esc(s.area)}</p>
+    <div class="meta"><span class="status ${open ? "" : "closed"}">${open ? "Open now" : "Closed now"}</span><span>Today ${fmtH(o)} to ${fmtH(c)}</span>
+    <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(s.q)}" target="_blank" rel="noopener">Directions</a></div></li>`;
+}).join("");
+const pins = $(".pins");
+pins.innerHTML = STORES.map(s => `<g transform="translate(${s.x} ${s.y})"><g class="pin" data-pin="${s.id}">
+  <circle class="halo" r="22" fill="#ff6a2c" opacity=".18"/><path d="M0 0 C -14 -18 -14 -34 0 -34 S 14 -18 0 0Z" fill="#133a2b"/><circle cy="-23" r="5" fill="#cfe3a8"/>
+  <text y="22" text-anchor="middle" font-family="Figtree" font-weight="700" font-size="13" fill="#133a2b">${esc(s.name.replace("Kōri ", ""))}</text></g></g>`).join("");
+const selectStore = (id) => {
+  $$(".store").forEach(el => { const on = el.dataset.store === id; el.setAttribute("aria-selected", on); el.querySelector(".store-sel").setAttribute("aria-pressed", on); });
+  $$(".pin").forEach(p => {
+    const on = p.dataset.pin === id;
+    p.querySelector("path").setAttribute("fill", on ? "#ff6a2c" : "#133a2b");
+    if (window.gsap && !reduce) gsap.to(p.querySelector(".halo"), { scale: on ? 1.6 : 1, opacity: on ? .3 : .18, duration: .5, ease: "power3.out" });
+  });
+};
+$$(".store").forEach(el => el.addEventListener("click", e => { if (!e.target.closest("a")) selectStore(el.dataset.store); }));
+$$(".pin").forEach(p => p.addEventListener("click", () => selectStore(p.dataset.pin)));
+selectStore(STORES[0].id);
+
+/* =====================================================================
+   COUNTDOWN — limited edition ends 30 days after Nov 20 (demo date)
+   ===================================================================== */
+const END = new Date("2026-12-20T23:59:59-03:00").getTime();
+const cd = { d: $('[data-cd="d"]'), h: $('[data-cd="h"]'), m: $('[data-cd="m"]'), s: $('[data-cd="s"]') };
+const tick = () => {
+  let t = Math.max(0, END - Date.now()) / 1000;
+  const d = Math.floor(t / 86400); t -= d * 86400; const h = Math.floor(t / 3600); t -= h * 3600; const m = Math.floor(t / 60); const s = Math.floor(t - m * 60);
+  cd.d.textContent = String(d).padStart(2, "0"); cd.h.textContent = String(h).padStart(2, "0"); cd.m.textContent = String(m).padStart(2, "0"); cd.s.textContent = String(s).padStart(2, "0");
+};
+tick(); const cdTimer = setInterval(tick, 1000);
+
+/* =====================================================================
+   MOTION (GSAP + ScrollTrigger + Lenis). Everything above works without it.
+   ===================================================================== */
+let lenis = null;
+const start = () => {
+  if (!window.gsap) { document.documentElement.classList.add("no-loader"); return; }
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Smooth scroll
+  if (!reduce && window.Lenis) {
+    lenis = new Lenis({ lerp: .1, wheelMultiplier: 1 });
+    lenis.on("scroll", ScrollTrigger.update);
+    gsap.ticker.add(t => lenis.raf(t * 1000)); gsap.ticker.lagSmoothing(0);
+  }
+  $$("[data-link]").forEach(a => a.addEventListener("click", e => {
+    const t = $(a.getAttribute("href")); if (!t) return;
+    e.preventDefault(); if (mm.classList.contains("open")) setMenu(false);
+    lenis ? lenis.scrollTo(t, { offset: -70, duration: 1.3 }) : t.scrollIntoView({ behavior: reduce ? "auto" : "smooth" });
+  }));
+
+  // Promo bar marquee (duplicate content for a seamless loop)
+  const pt = $(".promo-track"); pt.innerHTML += pt.innerHTML;
+  if (!reduce) gsap.to(pt, { xPercent: -50, ease: "none", duration: 32, repeat: -1 });
+
+  // Nav: solid after hero, hides when scrolling down, returns when scrolling up
+  const nav = $("#nav");
+  ScrollTrigger.create({ start: 0, end: "max", onUpdate: self => {
+    const y = self.scroll(), heroEnd = $(".hero").offsetHeight - 120;
+    nav.classList.toggle("solid", y > heroEnd);
+    nav.classList.toggle("hide", self.direction === 1 && y > 400 && !mm.classList.contains("open"));
+  }});
+
+  // Intro: loader once per session, then hero entrance
+  const hero = gsap.timeline({ paused: true, defaults: { ease: "expo.out" } })
+    .from(".h-line > span", { yPercent: 105, duration: 1.3, stagger: .12 })
+    .from(".arch", { clipPath: "inset(100% 0 0 0 round 999px 999px 28px 28px)", duration: 1.4 }, 0)
+    .from(".arch img", { scale: 1.25, duration: 1.8 }, 0)
+    .from(".bubble", { scale: 0, duration: 1, ease: "back.out(1.6)" }, .55)
+    .from(".badge", { scale: 0, rotate: -90, duration: 1, ease: "back.out(1.6)" }, .65)
+    .from(".hero-copy, .hero-actions, .hero-foot", { y: 24, opacity: 0, duration: 1, stagger: .1 }, .5)
+    .from(".cube", { opacity: 0, scale: .4, duration: 1, stagger: .1 }, .4);
+  if (reduce) { document.documentElement.classList.add("no-loader"); hero.progress(1); }
+  else if (store.get("kori-intro")) { document.documentElement.classList.add("no-loader"); hero.play(); }
+  else {
+    store.set("kori-intro", "1");
+    gsap.timeline()
+      .from(".loader .logo svg", { y: -60, rotate: -40, opacity: 0, duration: .7, ease: "back.out(2)" })
+      .from(".loader .logo span", { y: 20, opacity: 0, duration: .5, ease: "power3.out" }, "-=.3")
+      .to(".loader", { yPercent: -100, duration: .8, ease: "expo.inOut", delay: .25, onComplete: () => document.documentElement.classList.add("no-loader") })
+      .add(() => hero.play(), "-=.45");
+  }
+
+  if (reduce) return;
+
+  // Badge rotation + floating cubes (sine drift + mouse parallax)
+  gsap.to(".badge svg", { rotate: 360, duration: 18, ease: "none", repeat: -1 });
+  $$(".cube").forEach((c, i) => gsap.to(c, { y: "+=16", rotate: i % 2 ? 10 : -10, duration: 3 + i, ease: "sine.inOut", yoyo: true, repeat: -1 }));
+  if (fine) {
+    const movers = $$(".cube").map(c => ({ c, d: +c.dataset.depth, x: gsap.quickTo(c, "x", { duration: 1.2, ease: "power3.out" }) }));
+    $(".hero").addEventListener("pointermove", e => {
+      const nx = e.clientX / innerWidth - .5;
+      movers.forEach(m => m.x(nx * 40 * m.d));
+    });
+  }
+  // Hero image drifts as you scroll away
+  gsap.to(".arch img", { yPercent: 10, ease: "none", scrollTrigger: { trigger: ".hero", start: "top top", end: "bottom top", scrub: true } });
+
+  // Headings: word-by-word rise
+  $$(".reveal-words").forEach(h => {
+    h.innerHTML = h.textContent.split(" ").map(w => `<span style="display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.06em"><span class="w" style="display:inline-block">${esc(w)}</span></span>`).join(" ");
+    gsap.from(h.querySelectorAll(".w"), { yPercent: 110, duration: 1, stagger: .06, ease: "expo.out", scrollTrigger: { trigger: h, start: "top 85%" } });
+  });
+
+  // Featured drinks: staggered rise + 3D tilt toward the pointer
+  gsap.from(".drink", { y: 80, opacity: 0, duration: 1.1, stagger: .1, ease: "power3.out", scrollTrigger: { trigger: ".feat", start: "top 80%" } });
+  if (fine) $$(".drink").forEach(d => {
+    const card = $(".drink-card", d);
+    const rx = gsap.quickTo(card, "rotationX", { duration: .6, ease: "power3.out" }), ry = gsap.quickTo(card, "rotationY", { duration: .6, ease: "power3.out" });
+    d.addEventListener("pointermove", e => { const r = d.getBoundingClientRect(); ry(((e.clientX - r.left) / r.width - .5) * 10); rx(-((e.clientY - r.top) / r.height - .5) * 8); });
+    d.addEventListener("pointerleave", () => { rx(0); ry(0); });
+  });
+
+  // Story: statement words brighten as you read; images drift
+  const st = $(".statement");
+  st.innerHTML = st.textContent.trim().split(/\s+/).map(w => `<span class="w">${esc(w)}</span>`).join(" ");
+  gsap.fromTo(".statement .w", { opacity: .18 }, { opacity: 1, stagger: .05, ease: "none", scrollTrigger: { trigger: st, start: "top 75%", end: "bottom 45%", scrub: .5 } });
+  $$(".par").forEach((img, i) => gsap.fromTo(img, { yPercent: -12 }, { yPercent: 0, ease: "none", scrollTrigger: { trigger: img.parentElement, start: "top bottom", end: "bottom top", scrub: true } }));
+  gsap.from(".pillars > div", { y: 40, opacity: 0, duration: 1, stagger: .12, ease: "power3.out", scrollTrigger: { trigger: ".pillars", start: "top 85%" } });
+
+  // Signatures: horizontal pinned track on large screens
+  const mmq = gsap.matchMedia();
+  mmq.add("(min-width:1024px)", () => {
+    const track = $(".sig-track"), dist = () => track.scrollWidth - innerWidth;
+    const tw = gsap.to(track, { x: () => -dist(), ease: "none", scrollTrigger: { trigger: ".sig", start: "top top", end: () => "+=" + dist(), pin: true, scrub: 1, invalidateOnRefresh: true,
+      onUpdate: s => gsap.set(".sig-progress i", { scaleX: s.progress }) } });
+    $$(".sig-img").forEach(img => gsap.fromTo(img, { xPercent: -10 }, { xPercent: 0, ease: "none", scrollTrigger: { trigger: img.closest(".sig-card"), containerAnimation: tw, start: "left right", end: "right left", scrub: true } }));
+  });
+  mmq.add("(max-width:1023px)", () => {
+    $$(".sig-card").forEach(c => gsap.from(c, { y: 60, opacity: 0, duration: 1, ease: "power3.out", scrollTrigger: { trigger: c, start: "top 85%" } }));
+  });
+
+  // Lifestyle: clip reveals
+  $$(".rv").forEach((f, i) => gsap.from(f, { clipPath: "inset(18% 18% 18% 18% round 20px)", duration: 1.3, ease: "expo.out", scrollTrigger: { trigger: f, start: "top 88%" } }));
+
+  // Promo: giant type slides with scroll
+  gsap.fromTo(".promo-big", { xPercent: 0 }, { xPercent: -30, ease: "none", scrollTrigger: { trigger: ".promo-sec", start: "top bottom", end: "bottom top", scrub: true } });
+  gsap.from(".promo-ph", { scale: .8, rotate: -8, opacity: 0, duration: 1.2, ease: "expo.out", scrollTrigger: { trigger: ".promo-grid", start: "top 80%" } });
+
+  // Map: roads draw in, pins drop
+  $$(".roads path").forEach(p => { const l = p.getTotalLength(); gsap.set(p, { strokeDasharray: l, strokeDashoffset: l }); });
+  gsap.timeline({ scrollTrigger: { trigger: ".map", start: "top 80%" } })
+    .to(".roads path", { strokeDashoffset: 0, duration: 1.4, stagger: .08, ease: "power2.inOut" })
+    .from(".pin", { y: -40, opacity: 0, duration: .7, stagger: .12, ease: "bounce.out" }, "-=.6");
+
+  // Instagram grid stagger
+  gsap.from(".insta a", { y: 50, opacity: 0, duration: .9, stagger: .07, ease: "power3.out", scrollTrigger: { trigger: ".insta", start: "top 85%" } });
+
+  // Footer wordmark rises
+  gsap.from(".f-big", { yPercent: 40, opacity: 0, duration: 1.4, ease: "expo.out", scrollTrigger: { trigger: ".f-big", start: "top 95%" } });
+
+  // Magnetic buttons (desktop only)
+  if (fine) $$("[data-magnetic]").forEach(b => {
+    const x = gsap.quickTo(b, "x", { duration: .5, ease: "power3.out" }), y = gsap.quickTo(b, "y", { duration: .5, ease: "power3.out" });
+    b.addEventListener("pointermove", e => { const r = b.getBoundingClientRect(); x((e.clientX - r.left - r.width / 2) * .25); y((e.clientY - r.top - r.height / 2) * .3); });
+    b.addEventListener("pointerleave", () => gsap.to(b, { x: 0, y: 0, duration: .8, ease: "elastic.out(1,.4)" }));
+  });
+
+  addEventListener("load", () => ScrollTrigger.refresh());
+  let rt; addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => ScrollTrigger.refresh(), 200); });
+};
+// GSAP scripts are deferred; DOMContentLoaded fires after they run.
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start); else start();
+// Safety: never leave the loader up if a CDN fails
+setTimeout(() => document.documentElement.classList.add("no-loader"), 4000);
+addEventListener("pagehide", () => clearInterval(cdTimer));
+}
+</script>
+</body>
+</html>
