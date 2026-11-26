@@ -200,7 +200,7 @@
       <div class="container">
         <div class="section-head grid">
           <div><p class="marker"><span class="marker-rule" aria-hidden="true"></span>05<span class="marker-label">Trabalhos</span></p><h2 id="work-title">Sites para negócios <em>locais</em></h2></div>
-          <p class="section-intro">Páginas feitas para vender: o cliente vê o cardápio ou os serviços e o pedido chega pronto no WhatsApp. Abaixo, dois projetos demonstrativos que você pode abrir e testar.</p>
+          <p class="section-intro">Páginas feitas para vender: o cliente vê o cardápio ou os serviços e o pedido chega pronto no WhatsApp. Abaixo, três projetos demonstrativos que você pode abrir e testar.</p>
         </div>
 
         <div class="work-list">
@@ -235,6 +235,26 @@
               <h3>Estúdio de unhas</h3>
               <p>Serviços com preços, galeria de trabalhos e um agendamento em que a cliente escolhe serviço, dia e período. O pedido chega no WhatsApp do estúdio.</p>
               <a class="arrow-link" href="portfolio/unhas/" target="_blank" rel="noopener">Abrir o site <span class="visually-hidden">do estúdio de unhas (abre em nova aba)</span><span aria-hidden="true">→</span></a>
+            </div>
+          </article>
+          <article class="work-item">
+            <figure class="work-stage" data-reveal>
+              <div class="frame frame-work">
+                <div class="frame-bar"><span>Kōri</span></div>
+                <div class="live-shot" style="aspect-ratio:1600/1000" data-w="1440" data-h="900">
+                  <iframe src="demos/kori/" title="Prévia do site da Kōri, marca de bebidas geladas, com fundo verde, o título Bem gelado. Bem-vindo. e a foto de um café sendo servido no gelo." loading="lazy" tabindex="-1" aria-hidden="true" scrolling="no"></iframe>
+                </div>
+              </div>
+              <div class="frame-phone frame-phone-work">
+                <div class="live-shot" style="aspect-ratio:390/844;border-radius:20px" data-w="390" data-h="844">
+                  <iframe src="demos/kori/" title="O mesmo site da Kōri no celular." loading="lazy" tabindex="-1" aria-hidden="true" scrolling="no"></iframe>
+                </div>
+              </div>
+            </figure>
+            <div class="work-text">
+              <h3>Marca de bebidas</h3>
+              <p>Projeto conceito para uma marca de bebidas geladas: cardápio por categoria, sacola de pedidos, lojas com horário de funcionamento e uma edição limitada com contagem regressiva.</p>
+              <a class="arrow-link" href="demos/kori/" target="_blank" rel="noopener">Abrir o site <span class="visually-hidden">da marca de bebidas Kōri (abre em nova aba)</span><span aria-hidden="true">→</span></a>
             </div>
           </article>
         </div>
@@ -359,5 +379,11 @@
 
   <script src="assets/js/config.js"></script>
   <script src="assets/js/main.js"></script>
+<script>
+/* Live previews in Trabalhos: scale a full-size iframe to fit its frame */
+(function(){var boxes=document.querySelectorAll('.live-shot');if(!boxes.length)return;
+var fit=function(b){var f=b.querySelector('iframe'),w=+b.dataset.w,h=+b.dataset.h;f.style.width=w+'px';f.style.height=h+'px';f.style.transform='scale('+(b.clientWidth/w)+')'};
+var ro=new ResizeObserver(function(es){es.forEach(function(e){fit(e.target)})});boxes.forEach(function(b){fit(b);ro.observe(b)});})();
+</script>
 </body>
 </html>

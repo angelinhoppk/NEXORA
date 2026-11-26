@@ -993,3 +993,7 @@ h3 {
     animation-duration: 0.01ms !important;
   }
 }
+
+/* Live site preview (iframe scaled to the frame) */
+.live-shot { position: relative; width: 100%; overflow: hidden; background: #133a2b; }
+.live-shot iframe { position: absolute; left: 0; top: 0; border: 0; transform-origin: 0 0; pointer-events: none; }

@@ -6,7 +6,6 @@
 <title>Kōri | Bebidas geladas do seu jeito</title>
 <meta name="description" content="Kōri é um ateliê de bebidas geladas: lattes, matcha cerimonial, shakes com creme de verdade e refrescos de fruta, servidos sobre gelo cristalino." />
 <meta name="theme-color" content="#133a2b" />
-<meta name="robots" content="noindex" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Kōri | Bem gelado. Bem-vindo." />
 <meta property="og:description" content="Lattes gelados, matcha cerimonial, shakes e refrescos sobre gelo cristalino." />
@@ -956,7 +955,7 @@ const start = () => {
     .from(".hero-copy, .hero-actions, .hero-foot", { y: 24, opacity: 0, duration: 1, stagger: .1 }, .5)
     .from(".cube", { opacity: 0, scale: .4, duration: 1, stagger: .1 }, .4);
   if (reduce) { document.documentElement.classList.add("no-loader"); hero.progress(1); }
-  else if (store.get("kori-intro")) { document.documentElement.classList.add("no-loader"); hero.play(); }
+  else if (store.get("kori-intro") || window.self !== window.top) { document.documentElement.classList.add("no-loader"); hero.play(); }
   else {
     store.set("kori-intro", "1");
     gsap.timeline()
